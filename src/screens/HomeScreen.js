@@ -1,17 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
   View, Text, StyleSheet, Animated, ScrollView,
-  Dimensions, StatusBar, TouchableOpacity, Image, Linking,
+  Dimensions, StatusBar, TouchableOpacity, Image,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Colors, Gradients } from '../theme/colors';
+import { Video, ResizeMode } from 'expo-av';
+import { Colors } from '../theme/colors';
 import { Typography } from '../theme/typography';
 import ParticleField from '../components/ParticleField';
 import AnimatedGradientBackground from '../components/AnimatedGradientBackground';
 import GlassCard from '../components/GlassCard';
-import PulseRing from '../components/PulseRing';
+import AnimatedGauge from '../components/AnimatedGauge';
 
 const { width, height } = Dimensions.get('window');
+
+// Free futuristic tech video (streamed — no APK size impact)
+const VIDEO_URI = 'https://videos.pexels.com/video-files/3129671/3129671-sd_640_360_25fps.mp4';
 
 const SERVICES = [
   { icon: '🌐', title: 'Web Development', desc: 'Stunning websites that drive real business results', color: Colors.teal },
@@ -20,11 +24,11 @@ const SERVICES = [
   { icon: '🚀', title: 'Digital Solutions', desc: 'End-to-end digital transformation from the UAE', color: Colors.teal },
 ];
 
-const STATS = [
-  { value: '93%', label: 'Client Satisfaction' },
-  { value: '50+', label: 'Projects Delivered' },
-  { value: '8K+', label: 'Social Following' },
-  { value: '2.4x', label: 'Avg. ROI' },
+const GAUGES = [
+  { value: 93, maxValue: 100, label: 'Client Satisfaction', color: Colors.teal, unit: '%' },
+  { value: 50, maxValue: 60, label: 'Projects Delivered', color: Colors.blue, unit: '+' },
+  { value: 8, maxValue: 10, label: 'Social Following (K)', color: Colors.purple, unit: 'K' },
+  { value: 24, maxValue: 30, label: 'Average ROI', color: Colors.teal, unit: 'x' },
 ];
 
 function TypewriterText({ text, style, delay = 0 }) {
@@ -84,38 +88,18 @@ function ServiceCard({ item, index }) {
   );
 }
 
-function StatItem({ item, index }) {
-  const scale = useRef(new Animated.Value(0)).current;
-
-  useEffect(() => {
-    Animated.sequence([
-      Animated.delay(600 + index * 120),
-      Animated.spring(scale, { toValue: 1, tension: 60, friction: 6, useNativeDriver: true }),
-    ]).start();
-  }, []);
-
-  return (
-    <Animated.View style={[styles.statItem, { transform: [{ scale }] }]}>
-      <Text style={styles.statValue}>{item.value}</Text>
-      <Text style={styles.statLabel}>{item.label}</Text>
-    </Animated.View>
-  );
-}
-
 export default function HomeScreen({ navigation }) {
   const heroOpacity = useRef(new Animated.Value(0)).current;
   const heroY = useRef(new Animated.Value(30)).current;
-  const scrollY = useRef(new Animated.Value(0)).current;
   const logoFloat = useRef(new Animated.Value(0)).current;
+  const videoRef = useRef(null);
 
   useEffect(() => {
-    // Hero entrance
     Animated.parallel([
       Animated.timing(heroOpacity, { toValue: 1, duration: 800, useNativeDriver: true }),
       Animated.spring(heroY, { toValue: 0, tension: 40, friction: 8, useNativeDriver: true }),
     ]).start();
 
-    // Floating logo
     Animated.loop(
       Animated.sequence([
         Animated.timing(logoFloat, { toValue: -10, duration: 2000, useNativeDriver: true }),
@@ -124,27 +108,39 @@ export default function HomeScreen({ navigation }) {
     ).start();
   }, []);
 
-  const headerScale = scrollY.interpolate({
-    inputRange: [0, 120],
-    outputRange: [1, 0.9],
-    extrapolate: 'clamp',
-  });
-
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
-      <LinearGradient colors={['#050815', '#080d1c']} style={StyleSheet.absoluteFill} />
+
+      {/* Video background */}
+      <Video
+        ref={videoRef}
+        source={{ uri: VIDEO_URI }}
+        style={styles.video}
+        resizeMode={ResizeMode.COVER}
+        isLooping
+        isMuted
+        shouldPlay
+      />
+
+      {/* Dark overlay over video */}
+      <LinearGradient
+        colors={['rgba(5,8,21,0.7)', 'rgba(5,8,21,0.85)', '#050815']}
+        style={StyleSheet.absoluteFill}
+      />
+
       <AnimatedGradientBackground />
       <ParticleField />
 
       <Animated.ScrollView
-        onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], { useNativeDriver: true })}
-        scrollEventThrottle={16}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
       >
         {/* Hero */}
-        <Animated.View style={[styles.hero, { opacity: heroOpacity, transform: [{ translateY: heroY }, { scale: headerScale }] }]}>
+        <Animated.View style={[styles.hero, {
+          opacity: heroOpacity,
+          transform: [{ translateY: heroY }],
+        }]}>
           <Animated.View style={{ transform: [{ translateY: logoFloat }], alignItems: 'center' }}>
             <View style={styles.logoGlow}>
               <Image
@@ -155,16 +151,10 @@ export default function HomeScreen({ navigation }) {
             </View>
           </Animated.View>
 
-          <TypewriterText
-            text="WETHINK"
-            style={styles.heroTitle}
-            delay={200}
-          />
-          <TypewriterText
-            text="We think big. You achieve bigger."
-            style={styles.heroSubtitle}
-            delay={1200}
-          />
+          <TypewriterText text="WETHINK" style={styles.heroTitle} delay={200} />
+          <TypewriterText text="We think big. You achieve bigger." style={styles.heroSubtitle} delay={1200} />
+
+          <Text style={styles.tagline}>THINK · PLAN · GROW</Text>
 
           <View style={styles.heroCTA}>
             <TouchableOpacity
@@ -192,15 +182,20 @@ export default function HomeScreen({ navigation }) {
           </View>
         </Animated.View>
 
-        {/* Stats */}
-        <View style={styles.statsRow}>
-          {STATS.map((item, i) => <StatItem key={i} item={item} index={i} />)}
+        {/* Animated Gauges */}
+        <View style={styles.section}>
+          <Text style={styles.sectionLabel}>BY THE NUMBERS</Text>
+          <View style={styles.gaugesGrid}>
+            {GAUGES.map((g, i) => (
+              <AnimatedGauge key={i} {...g} index={i} />
+            ))}
+          </View>
         </View>
 
         {/* Services */}
         <View style={styles.section}>
           <Text style={styles.sectionLabel}>WHAT WE DO</Text>
-          <Text style={[Typography.h2, { color: Colors.textPrimary, marginBottom: 20 }]}>
+          <Text style={[Typography.h2, { color: Colors.textPrimary, marginBottom: 16 }]}>
             Our Services
           </Text>
           <View style={styles.servicesGrid}>
@@ -209,15 +204,13 @@ export default function HomeScreen({ navigation }) {
         </View>
 
         {/* Contact CTA */}
-        <View style={styles.section}>
+        <View style={[styles.section, { marginBottom: 8 }]}>
           <GlassCard glowColor={Colors.glowTeal} onPress={() => navigation.navigate('Contact')}>
             <View style={styles.ctaBanner}>
-              <PulseRing color={Colors.glowTeal} size={56}>
-                <Text style={{ fontSize: 24 }}>💬</Text>
-              </PulseRing>
-              <View style={{ flex: 1, marginLeft: 16 }}>
+              <Text style={{ fontSize: 28 }}>💬</Text>
+              <View style={{ flex: 1, marginLeft: 14 }}>
                 <Text style={[Typography.h4, { color: Colors.textPrimary }]}>Ready to grow?</Text>
-                <Text style={[Typography.bodySmall, { color: Colors.textSecondary, marginTop: 4 }]}>
+                <Text style={[Typography.bodySmall, { color: Colors.textSecondary, marginTop: 3 }]}>
                   Let's build your digital future together
                 </Text>
               </View>
@@ -226,51 +219,32 @@ export default function HomeScreen({ navigation }) {
           </GlassCard>
         </View>
 
-        <View style={{ height: 100 }} />
+        <View style={{ height: 90 }} />
       </Animated.ScrollView>
-
-      {/* Bottom nav */}
-      <View style={styles.bottomNav}>
-        <LinearGradient
-          colors={['rgba(5,8,21,0)', 'rgba(5,8,21,0.98)']}
-          style={StyleSheet.absoluteFill}
-        />
-        {[
-          { icon: '🏠', label: 'Home', screen: 'Home' },
-          { icon: '⚡', label: 'Services', screen: 'Services' },
-          { icon: '🎨', label: 'Portfolio', screen: 'Portfolio' },
-          { icon: '📖', label: 'About', screen: 'About' },
-          { icon: '📞', label: 'Contact', screen: 'Contact' },
-        ].map((item) => (
-          <TouchableOpacity
-            key={item.screen}
-            style={styles.navItem}
-            onPress={() => navigation.navigate(item.screen)}
-          >
-            <Text style={{ fontSize: 20 }}>{item.icon}</Text>
-            <Text style={[Typography.label, { color: Colors.textMuted, marginTop: 4, fontSize: 9 }]}>{item.label}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: Colors.background },
+  video: {
+    position: 'absolute',
+    top: 0, left: 0, right: 0,
+    height: height * 0.55,
+  },
   scrollContent: { paddingTop: 60 },
   hero: {
     alignItems: 'center',
     paddingHorizontal: 24,
     paddingTop: 40,
-    paddingBottom: 20,
+    paddingBottom: 28,
   },
   logoGlow: {
     shadowColor: Colors.teal,
     shadowOpacity: 0.5,
     shadowRadius: 30,
     elevation: 15,
-    marginBottom: 24,
+    marginBottom: 20,
   },
   heroLogo: { width: 100, height: 100 },
   heroTitle: {
@@ -287,7 +261,13 @@ const styles = StyleSheet.create({
     marginTop: 10,
     paddingHorizontal: 20,
   },
-  heroCTA: { flexDirection: 'row', gap: 12, marginTop: 28 },
+  tagline: {
+    ...Typography.label,
+    color: Colors.teal,
+    marginTop: 10,
+    letterSpacing: 4,
+  },
+  heroCTA: { flexDirection: 'row', gap: 12, marginTop: 24 },
   ctaPrimary: { borderRadius: 14, overflow: 'hidden' },
   ctaGradient: { paddingHorizontal: 28, paddingVertical: 14 },
   ctaPrimaryText: { ...Typography.button, color: Colors.white },
@@ -300,34 +280,19 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.surface,
   },
   ctaSecondaryText: { ...Typography.button, color: Colors.textPrimary },
-  statsRow: {
+  section: { paddingHorizontal: 16, marginTop: 28 },
+  sectionLabel: { ...Typography.label, color: Colors.teal, marginBottom: 12 },
+  gaugesGrid: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginHorizontal: 16,
-    marginVertical: 8,
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
     backgroundColor: Colors.surface,
-    borderRadius: 20,
-    paddingVertical: 20,
+    borderRadius: 24,
+    padding: 16,
     borderWidth: 1,
     borderColor: Colors.border,
   },
-  statItem: { alignItems: 'center' },
-  statValue: { ...Typography.h2, color: Colors.teal, fontSize: 24 },
-  statLabel: { ...Typography.bodySmall, color: Colors.textSecondary, marginTop: 4, textAlign: 'center' },
-  section: { paddingHorizontal: 16, marginTop: 32 },
-  sectionLabel: { ...Typography.label, color: Colors.teal, marginBottom: 8 },
   servicesGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' },
   cardAccent: { height: 2, borderRadius: 2, marginTop: 12 },
   ctaBanner: { flexDirection: 'row', alignItems: 'center' },
-  bottomNav: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    paddingBottom: 28,
-    paddingTop: 40,
-  },
-  navItem: { alignItems: 'center' },
 });

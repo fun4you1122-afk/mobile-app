@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
   View, Text, StyleSheet, Animated, ScrollView, StatusBar,
-  TouchableOpacity, TextInput, Linking, Alert, Keyboard,
+  TouchableOpacity, TextInput, Linking, Alert, Keyboard, Image,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Colors } from '../theme/colors';
@@ -11,30 +11,33 @@ import PulseRing from '../components/PulseRing';
 import AnimatedGradientBackground from '../components/AnimatedGradientBackground';
 import ParticleField from '../components/ParticleField';
 
+const PHONE = '0503125078';
+const WHATSAPP_NUMBER = '971503125078';
+
 const CONTACT_METHODS = [
   {
     icon: '💬',
     label: 'WhatsApp',
-    value: 'Chat with us now',
-    color: Colors.success,
-    glow: 'rgba(34,197,94,0.4)',
-    action: () => Linking.openURL('https://wa.me/971501234567'),
-  },
-  {
-    icon: '📧',
-    label: 'Email',
-    value: 'info@wethink.ae',
-    color: Colors.teal,
-    glow: Colors.glowTeal,
-    action: () => Linking.openURL('mailto:info@wethink.ae'),
+    value: PHONE,
+    color: '#25D366',
+    glow: 'rgba(37,211,102,0.4)',
+    action: () => Linking.openURL(`https://wa.me/${WHATSAPP_NUMBER}`),
   },
   {
     icon: '📞',
     label: 'Call Us',
-    value: '+971 50 123 4567',
+    value: PHONE,
     color: Colors.blue,
     glow: Colors.glowBlue,
-    action: () => Linking.openURL('tel:+971501234567'),
+    action: () => Linking.openURL(`tel:${PHONE}`),
+  },
+  {
+    icon: '📧',
+    label: 'Email',
+    value: 'Info@wethink.ae',
+    color: Colors.teal,
+    glow: Colors.glowTeal,
+    action: () => Linking.openURL('mailto:Info@wethink.ae'),
   },
   {
     icon: '🌐',
@@ -44,6 +47,22 @@ const CONTACT_METHODS = [
     glow: Colors.glowPurple,
     action: () => Linking.openURL('https://www.wethink.ae'),
   },
+  {
+    icon: '📸',
+    label: 'Instagram',
+    value: '@wethink.ae',
+    color: '#E1306C',
+    glow: 'rgba(225,48,108,0.4)',
+    action: () => Linking.openURL('https://www.instagram.com/wethink.ae'),
+  },
+  {
+    icon: '💼',
+    label: 'LinkedIn',
+    value: 'Rasha Aljalam',
+    color: '#0A66C2',
+    glow: 'rgba(10,102,194,0.4)',
+    action: () => Linking.openURL('https://www.linkedin.com/in/rasha-aljalam'),
+  },
 ];
 
 function ContactButton({ item, index }) {
@@ -52,7 +71,7 @@ function ContactButton({ item, index }) {
 
   useEffect(() => {
     Animated.sequence([
-      Animated.delay(200 + index * 120),
+      Animated.delay(200 + index * 100),
       Animated.parallel([
         Animated.spring(anim, { toValue: 1, tension: 50, friction: 7, useNativeDriver: true }),
         Animated.spring(scale, { toValue: 1, tension: 50, friction: 7, useNativeDriver: true }),
@@ -61,24 +80,19 @@ function ContactButton({ item, index }) {
   }, []);
 
   return (
-    <Animated.View style={{ opacity: anim, transform: [{ scale }], marginBottom: 12 }}>
+    <Animated.View style={{ opacity: anim, transform: [{ scale }], marginBottom: 10 }}>
       <GlassCard onPress={item.action} glowColor={item.glow}>
         <View style={styles.contactRow}>
-          <PulseRing color={item.glow} size={52}>
-            <Text style={{ fontSize: 22 }}>{item.icon}</Text>
+          <PulseRing color={item.glow} size={48}>
+            <Text style={{ fontSize: 20 }}>{item.icon}</Text>
           </PulseRing>
           <View style={styles.contactInfo}>
             <Text style={[Typography.label, { color: item.color }]}>{item.label}</Text>
             <Text style={[Typography.body, { color: Colors.textPrimary, marginTop: 2 }]}>{item.value}</Text>
           </View>
-          <LinearGradient
-            colors={[item.color, item.color + '80']}
-            style={styles.arrowButton}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-          >
-            <Text style={{ color: Colors.white, fontSize: 16 }}>→</Text>
-          </LinearGradient>
+          <View style={[styles.arrowButton, { backgroundColor: item.color + '25', borderColor: item.color + '50' }]}>
+            <Text style={{ color: item.color, fontSize: 14 }}>→</Text>
+          </View>
         </View>
       </GlassCard>
     </Animated.View>
@@ -92,13 +106,15 @@ export default function ContactScreen() {
   const [submitted, setSubmitted] = useState(false);
 
   const headerAnim = useRef(new Animated.Value(0)).current;
+  const ceoAnim = useRef(new Animated.Value(0)).current;
   const formAnim = useRef(new Animated.Value(0)).current;
   const successScale = useRef(new Animated.Value(0)).current;
   const successOpacity = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    Animated.stagger(200, [
+    Animated.stagger(180, [
       Animated.spring(headerAnim, { toValue: 1, tension: 40, friction: 7, useNativeDriver: true }),
+      Animated.spring(ceoAnim, { toValue: 1, tension: 40, friction: 7, useNativeDriver: true }),
       Animated.spring(formAnim, { toValue: 1, tension: 40, friction: 7, useNativeDriver: true }),
     ]).start();
   }, []);
@@ -135,9 +151,61 @@ export default function ContactScreen() {
         }]}>
           <Text style={styles.sectionLabel}>GET IN TOUCH</Text>
           <Text style={[Typography.h1, { color: Colors.textPrimary }]}>Let's Talk</Text>
-          <Text style={[Typography.body, { color: Colors.textSecondary, marginTop: 8 }]}>
+          <Text style={[Typography.body, { color: Colors.textSecondary, marginTop: 6 }]}>
             Ready to build something great? We'd love to hear from you.
           </Text>
+        </Animated.View>
+
+        {/* CEO Profile */}
+        <Animated.View style={[{
+          opacity: ceoAnim,
+          transform: [{ scale: ceoAnim.interpolate({ inputRange: [0, 1], outputRange: [0.92, 1] }) }],
+          marginBottom: 20,
+        }]}>
+          <GlassCard glowColor={Colors.glowPurple}>
+            <View style={styles.ceoRow}>
+              <View style={styles.ceoImageWrapper}>
+                <Image
+                  source={require('../../assets/images/ceo.jpg')}
+                  style={styles.ceoImage}
+                  resizeMode="cover"
+                />
+                <LinearGradient
+                  colors={['transparent', 'rgba(124,58,237,0.3)']}
+                  style={StyleSheet.absoluteFill}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                />
+              </View>
+              <View style={styles.ceoInfo}>
+                <View style={styles.ceoBadge}>
+                  <Text style={[Typography.label, { color: Colors.purple, fontSize: 9 }]}>CEO & FOUNDER</Text>
+                </View>
+                <Text style={[Typography.h3, { color: Colors.textPrimary, marginTop: 8 }]}>
+                  Rasha{'\n'}Aljalam
+                </Text>
+                <Text style={[Typography.bodySmall, { color: Colors.textSecondary, marginTop: 6, lineHeight: 18 }]}>
+                  IT Consulting &{'\n'}Digital Solutions
+                </Text>
+                <TouchableOpacity
+                  style={styles.linkedinBtn}
+                  onPress={() => Linking.openURL('https://www.linkedin.com/in/rasha-aljalam')}
+                  activeOpacity={0.8}
+                >
+                  <Text style={{ fontSize: 12 }}>💼</Text>
+                  <Text style={[Typography.label, { color: '#0A66C2', fontSize: 9, marginLeft: 4 }]}>LinkedIn</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            {/* Address */}
+            <View style={styles.addressRow}>
+              <Text style={{ fontSize: 16 }}>📍</Text>
+              <Text style={[Typography.bodySmall, { color: Colors.textSecondary, marginLeft: 10, flex: 1 }]}>
+                Pixel, Al Reem Island, Makers District, Abu Dhabi, UAE
+              </Text>
+            </View>
+          </GlassCard>
         </Animated.View>
 
         {/* Contact Methods */}
@@ -175,7 +243,6 @@ export default function ContactScreen() {
                   selectionColor={Colors.teal}
                 />
               </View>
-
               <View style={styles.inputWrapper}>
                 <Text style={styles.inputLabel}>Email Address</Text>
                 <TextInput
@@ -189,7 +256,6 @@ export default function ContactScreen() {
                   selectionColor={Colors.teal}
                 />
               </View>
-
               <View style={styles.inputWrapper}>
                 <Text style={styles.inputLabel}>Your Message</Text>
                 <TextInput
@@ -204,7 +270,6 @@ export default function ContactScreen() {
                   textAlignVertical="top"
                 />
               </View>
-
               <TouchableOpacity onPress={handleSubmit} activeOpacity={0.85} style={styles.submitButton}>
                 <LinearGradient
                   colors={['#00D4AA', '#3B5BDB', '#7C3AED']}
@@ -228,11 +293,51 @@ export default function ContactScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: Colors.background },
   content: { paddingHorizontal: 16, paddingTop: 70 },
-  header: { marginBottom: 24 },
+  header: { marginBottom: 20 },
   sectionLabel: { ...Typography.label, color: Colors.teal, marginBottom: 8 },
   contactRow: { flexDirection: 'row', alignItems: 'center' },
-  contactInfo: { flex: 1, marginLeft: 16 },
-  arrowButton: { width: 36, height: 36, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  contactInfo: { flex: 1, marginLeft: 14 },
+  arrowButton: {
+    width: 34, height: 34, borderRadius: 10,
+    alignItems: 'center', justifyContent: 'center',
+    borderWidth: 1,
+  },
+  ceoRow: { flexDirection: 'row', alignItems: 'flex-start', marginBottom: 16 },
+  ceoImageWrapper: {
+    width: 110, height: 130,
+    borderRadius: 16,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: Colors.glowPurple,
+  },
+  ceoImage: { width: '100%', height: '100%' },
+  ceoInfo: { flex: 1, marginLeft: 16, paddingTop: 4 },
+  ceoBadge: {
+    alignSelf: 'flex-start',
+    paddingHorizontal: 10, paddingVertical: 4,
+    borderRadius: 20,
+    backgroundColor: Colors.glowPurple,
+    borderWidth: 1,
+    borderColor: Colors.purple + '50',
+  },
+  linkedinBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+    paddingHorizontal: 10, paddingVertical: 5,
+    borderRadius: 10,
+    backgroundColor: 'rgba(10,102,194,0.15)',
+    alignSelf: 'flex-start',
+    borderWidth: 1,
+    borderColor: 'rgba(10,102,194,0.3)',
+  },
+  addressRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    borderTopWidth: 1,
+    borderTopColor: Colors.border,
+    paddingTop: 14,
+  },
   formSection: {
     marginTop: 12,
     backgroundColor: Colors.surface,

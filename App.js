@@ -3,9 +3,9 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import SplashScreen from './src/screens/SplashScreen';
@@ -20,44 +20,50 @@ import { Typography } from './src/theme/typography';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const TAB_ICONS = {
-  Home: '🏠',
-  Services: '⚡',
-  Portfolio: '🎨',
-  About: '📖',
-  Contact: '📞',
-};
+const TABS = [
+  { name: 'Home',      icon: '🏠' },
+  { name: 'Services',  icon: '⚡' },
+  { name: 'Portfolio', icon: '🎨' },
+  { name: 'About',     icon: '📖' },
+  { name: 'Contact',   icon: '📞' },
+];
 
-function CustomTabBar({ state, descriptors, navigation }) {
+function CustomTabBar({ state, navigation }) {
+  const insets = useSafeAreaInsets();
+
   return (
-    <View style={tabStyles.wrapper}>
+    <View style={[styles.tabBarOuter, { paddingBottom: insets.bottom || 12 }]}>
       <LinearGradient
-        colors={['rgba(5,8,21,0)', 'rgba(5,8,21,0.97)']}
+        colors={['rgba(5,8,21,0)', 'rgba(5,8,21,0.96)']}
         style={StyleSheet.absoluteFill}
+        pointerEvents="none"
       />
-      <View style={tabStyles.bar}>
-        {state.routes.map((route, index) => {
+      <View style={styles.tabBarInner}>
+        {TABS.map((tab, index) => {
           const isFocused = state.index === index;
           return (
             <TouchableOpacity
-              key={route.key}
-              onPress={() => navigation.navigate(route.name)}
-              style={tabStyles.tabItem}
-              activeOpacity={0.75}
+              key={tab.name}
+              onPress={() => navigation.navigate(tab.name)}
+              style={styles.tabItem}
+              activeOpacity={0.7}
             >
               {isFocused && (
                 <LinearGradient
-                  colors={['rgba(0,212,170,0.15)', 'rgba(124,58,237,0.15)']}
-                  style={tabStyles.activeBg}
+                  colors={['rgba(0,212,170,0.18)', 'rgba(124,58,237,0.18)']}
+                  style={StyleSheet.absoluteFill}
                   start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 0 }}
+                  end={{ x: 1, y: 1 }}
                 />
               )}
-              <Text style={{ fontSize: 20 }}>{TAB_ICONS[route.name]}</Text>
-              <Text style={[tabStyles.tabLabel, { color: isFocused ? Colors.teal : Colors.textMuted }]}>
-                {route.name}
+              <Text style={{ fontSize: 18 }}>{tab.icon}</Text>
+              <Text style={[
+                styles.tabLabel,
+                { color: isFocused ? Colors.teal : Colors.textMuted },
+              ]}>
+                {tab.name}
               </Text>
-              {isFocused && <View style={tabStyles.dot} />}
+              {isFocused && <View style={styles.activeDot} />}
             </TouchableOpacity>
           );
         })}
@@ -72,11 +78,18 @@ function MainTabs() {
       tabBar={(props) => <CustomTabBar {...props} />}
       screenOptions={{ headerShown: false }}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Services" component={ServicesScreen} />
-      <Tab.Screen name="Portfolio" component={PortfolioScreen} />
-      <Tab.Screen name="About" component={AboutScreen} />
-      <Tab.Screen name="Contact" component={ContactScreen} />
+      {TABS.map((tab) => {
+        const screens = {
+          Home: HomeScreen,
+          Services: ServicesScreen,
+          Portfolio: PortfolioScreen,
+          About: AboutScreen,
+          Contact: ContactScreen,
+        };
+        return (
+          <Tab.Screen key={tab.name} name={tab.name} component={screens[tab.name]} />
+        );
+      })}
     </Tab.Navigator>
   );
 }
@@ -96,44 +109,40 @@ export default function App() {
   );
 }
 
-const tabStyles = StyleSheet.create({
-  wrapper: {
+const styles = StyleSheet.create({
+  tabBarOuter: {
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-    paddingBottom: 24,
-    paddingTop: 30,
+    paddingTop: 8,
   },
-  bar: {
+  tabBarInner: {
     flexDirection: 'row',
-    paddingHorizontal: 16,
     justifyContent: 'space-around',
+    paddingHorizontal: 8,
   },
   tabItem: {
+    flex: 1,
     alignItems: 'center',
-    paddingHorizontal: 12,
     paddingVertical: 8,
-    borderRadius: 16,
-    minWidth: 56,
+    borderRadius: 14,
+    overflow: 'hidden',
     position: 'relative',
-  },
-  activeBg: {
-    ...StyleSheet.absoluteFillObject,
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: 'rgba(0,212,170,0.2)',
+    marginHorizontal: 2,
   },
   tabLabel: {
-    ...Typography.label,
     fontSize: 9,
-    marginTop: 4,
+    fontWeight: '600',
+    letterSpacing: 0.5,
+    marginTop: 3,
+    textTransform: 'uppercase',
   },
-  dot: {
+  activeDot: {
     width: 4,
     height: 4,
     borderRadius: 2,
     backgroundColor: Colors.teal,
-    marginTop: 4,
+    marginTop: 3,
   },
 });
