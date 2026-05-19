@@ -7,6 +7,8 @@ import { Colors } from '../theme/colors';
 import { Typography } from '../theme/typography';
 import GlassCard from '../components/GlassCard';
 import AnimatedGradientBackground from '../components/AnimatedGradientBackground';
+import VideoBackground from '../components/VideoBackground';
+import ScreenWrapper from '../components/ScreenWrapper';
 
 const { width } = Dimensions.get('window');
 
@@ -129,9 +131,10 @@ export default function ServicesScreen() {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
-      <LinearGradient colors={['#050815', '#080d1c']} style={StyleSheet.absoluteFill} />
+      <VideoBackground source={require('../../assets/videos/services.mp4')} />
       <AnimatedGradientBackground />
 
+      <ScreenWrapper style={{ flex: 1 }}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
         <Animated.View style={[styles.header, {
           opacity: headerAnim,
@@ -145,8 +148,9 @@ export default function ServicesScreen() {
         </Animated.View>
 
         {SERVICES.map((item, i) => <ServiceCard key={i} item={item} index={i} />)}
-        <View style={{ height: 100 }} />
+        <View style={{ height: 120 }} />
       </ScrollView>
+      </ScreenWrapper>
     </View>
   );
 }

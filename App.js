@@ -32,7 +32,7 @@ function CustomTabBar({ state, navigation }) {
   const insets = useSafeAreaInsets();
 
   return (
-    <View style={[styles.tabBarOuter, { paddingBottom: insets.bottom || 12 }]}>
+    <View style={[styles.tabBarOuter, { paddingBottom: Math.max(insets.bottom, 16) }]}>
       <LinearGradient
         colors={['rgba(5,8,21,0)', 'rgba(5,8,21,0.96)']}
         style={StyleSheet.absoluteFill}
@@ -121,6 +121,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingHorizontal: 8,
+    height: 60,
+    alignItems: 'center',
   },
   tabItem: {
     flex: 1,

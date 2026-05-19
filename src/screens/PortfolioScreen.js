@@ -8,6 +8,8 @@ import { Colors } from '../theme/colors';
 import { Typography } from '../theme/typography';
 import GlassCard from '../components/GlassCard';
 import AnimatedGradientBackground from '../components/AnimatedGradientBackground';
+import VideoBackground from '../components/VideoBackground';
+import ScreenWrapper from '../components/ScreenWrapper';
 
 const { width } = Dimensions.get('window');
 
@@ -89,9 +91,10 @@ export default function PortfolioScreen() {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
-      <LinearGradient colors={['#050815', '#080d1c']} style={StyleSheet.absoluteFill} />
+      <VideoBackground source={require('../../assets/videos/portfolio.mp4')} />
       <AnimatedGradientBackground />
 
+      <ScreenWrapper style={{ flex: 1 }}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
         <Animated.View style={[styles.header, {
           opacity: headerAnim,
@@ -136,15 +139,16 @@ export default function PortfolioScreen() {
         </Animated.ScrollView>
 
         {filtered.map((item, i) => <ProjectCard key={item.title} item={item} index={i} />)}
-        <View style={{ height: 100 }} />
+        <View style={{ height: 120 }} />
       </ScrollView>
+      </ScreenWrapper>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: Colors.background },
-  content: { paddingHorizontal: 16, paddingTop: 70 },
+  content: { paddingHorizontal: 16, paddingTop: 70, paddingBottom: 20 },
   header: { marginBottom: 20 },
   sectionLabel: { ...Typography.label, color: Colors.teal, marginBottom: 8 },
   filterRow: { marginBottom: 20, marginHorizontal: -16 },

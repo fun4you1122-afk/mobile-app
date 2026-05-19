@@ -8,6 +8,8 @@ import { Typography } from '../theme/typography';
 import GlassCard from '../components/GlassCard';
 import AnimatedGradientBackground from '../components/AnimatedGradientBackground';
 import ParticleField from '../components/ParticleField';
+import VideoBackground from '../components/VideoBackground';
+import ScreenWrapper from '../components/ScreenWrapper';
 
 const { width } = Dimensions.get('window');
 
@@ -70,10 +72,11 @@ export default function AboutScreen() {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
-      <LinearGradient colors={['#050815', '#080d1c']} style={StyleSheet.absoluteFill} />
+      <VideoBackground source={require('../../assets/videos/about.mp4')} />
       <AnimatedGradientBackground />
       <ParticleField />
 
+      <ScreenWrapper style={{ flex: 1 }}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
 
         {/* Hero */}
@@ -152,15 +155,16 @@ export default function AboutScreen() {
           </GlassCard>
         </View>
 
-        <View style={{ height: 100 }} />
+        <View style={{ height: 120 }} />
       </ScrollView>
+      </ScreenWrapper>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: Colors.background },
-  content: { paddingHorizontal: 16, paddingTop: 70 },
+  content: { paddingHorizontal: 16, paddingTop: 70, paddingBottom: 20 },
   heroSection: { alignItems: 'center', paddingVertical: 30 },
   logoGlow: {
     shadowColor: Colors.teal,

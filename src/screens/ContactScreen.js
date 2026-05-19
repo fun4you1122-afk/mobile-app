@@ -10,6 +10,8 @@ import GlassCard from '../components/GlassCard';
 import PulseRing from '../components/PulseRing';
 import AnimatedGradientBackground from '../components/AnimatedGradientBackground';
 import ParticleField from '../components/ParticleField';
+import VideoBackground from '../components/VideoBackground';
+import ScreenWrapper from '../components/ScreenWrapper';
 
 const PHONE = '0503125078';
 const WHATSAPP_NUMBER = '971503125078';
@@ -135,10 +137,11 @@ export default function ContactScreen() {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
-      <LinearGradient colors={['#050815', '#080d1c']} style={StyleSheet.absoluteFill} />
+      <VideoBackground source={require('../../assets/videos/contact.mp4')} />
       <AnimatedGradientBackground />
       <ParticleField />
 
+      <ScreenWrapper style={{ flex: 1 }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.content}
@@ -284,15 +287,17 @@ export default function ContactScreen() {
           )}
         </Animated.View>
 
-        <View style={{ height: 100 }} />
+        <View style={{ height: 120 }} />
       </ScrollView>
+      </ScreenWrapper>
     </View>
   );
 }
 
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: Colors.background },
-  content: { paddingHorizontal: 16, paddingTop: 70 },
+  content: { paddingHorizontal: 16, paddingTop: 70, paddingBottom: 20 },
   header: { marginBottom: 20 },
   sectionLabel: { ...Typography.label, color: Colors.teal, marginBottom: 8 },
   contactRow: { flexDirection: 'row', alignItems: 'center' },

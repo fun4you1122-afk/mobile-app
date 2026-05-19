@@ -4,18 +4,16 @@ import {
   Dimensions, StatusBar, TouchableOpacity, Image,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Video, ResizeMode } from 'expo-av';
 import { Colors } from '../theme/colors';
 import { Typography } from '../theme/typography';
 import ParticleField from '../components/ParticleField';
 import AnimatedGradientBackground from '../components/AnimatedGradientBackground';
 import GlassCard from '../components/GlassCard';
 import AnimatedGauge from '../components/AnimatedGauge';
+import VideoBackground from '../components/VideoBackground';
+import ScreenWrapper from '../components/ScreenWrapper';
 
 const { width, height } = Dimensions.get('window');
-
-// Free futuristic tech video (streamed — no APK size impact)
-const VIDEO_URI = 'https://videos.pexels.com/video-files/3129671/3129671-sd_640_360_25fps.mp4';
 
 const SERVICES = [
   { icon: '🌐', title: 'Web Development', desc: 'Stunning websites that drive real business results', color: Colors.teal },
@@ -92,7 +90,6 @@ export default function HomeScreen({ navigation }) {
   const heroOpacity = useRef(new Animated.Value(0)).current;
   const heroY = useRef(new Animated.Value(30)).current;
   const logoFloat = useRef(new Animated.Value(0)).current;
-  const videoRef = useRef(null);
 
   useEffect(() => {
     Animated.parallel([
@@ -112,26 +109,12 @@ export default function HomeScreen({ navigation }) {
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
 
-      {/* Video background */}
-      <Video
-        ref={videoRef}
-        source={{ uri: VIDEO_URI }}
-        style={styles.video}
-        resizeMode={ResizeMode.COVER}
-        isLooping
-        isMuted
-        shouldPlay
-      />
-
-      {/* Dark overlay over video */}
-      <LinearGradient
-        colors={['rgba(5,8,21,0.7)', 'rgba(5,8,21,0.85)', '#050815']}
-        style={StyleSheet.absoluteFill}
-      />
+      <VideoBackground source={require('../../assets/videos/home.mp4')} />
 
       <AnimatedGradientBackground />
       <ParticleField />
 
+      <ScreenWrapper style={{ flex: 1 }}>
       <Animated.ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
@@ -219,20 +202,16 @@ export default function HomeScreen({ navigation }) {
           </GlassCard>
         </View>
 
-        <View style={{ height: 90 }} />
+        <View style={{ height: 120 }} />
       </Animated.ScrollView>
+      </ScreenWrapper>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: Colors.background },
-  video: {
-    position: 'absolute',
-    top: 0, left: 0, right: 0,
-    height: height * 0.55,
-  },
-  scrollContent: { paddingTop: 60 },
+  scrollContent: { paddingTop: 60, paddingBottom: 20 },
   hero: {
     alignItems: 'center',
     paddingHorizontal: 24,
