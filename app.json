@@ -27,9 +27,13 @@
     "web": {
       "favicon": "./assets/images/logo.png"
     },
+    "assetBundlePatterns": [
+      "assets/**"
+    ],
     "plugins": [
       "expo-font",
-      "expo-video"
+      "expo-video",
+      "expo-asset"
     ]
   }
 }
