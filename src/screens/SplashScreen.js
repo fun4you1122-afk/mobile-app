@@ -5,7 +5,6 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { Colors, Gradients } from '../theme/colors';
 import { Typography } from '../theme/typography';
-import ParticleField from '../components/ParticleField';
 
 const { width, height } = Dimensions.get('window');
 
@@ -67,7 +66,6 @@ export default function SplashScreen({ navigation }) {
     <Animated.View style={[styles.container, { opacity: screenOpacity }]}>
       <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
       <LinearGradient colors={['#050815', '#080d1c', '#050815']} style={StyleSheet.absoluteFill} />
-      <ParticleField />
 
       {/* Animated glow rings */}
       <Animated.View style={[styles.ring, {

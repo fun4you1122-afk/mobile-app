@@ -6,8 +6,6 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { Colors } from '../theme/colors';
 import { Typography } from '../theme/typography';
-import ParticleField from '../components/ParticleField';
-import AnimatedGradientBackground from '../components/AnimatedGradientBackground';
 import GlassCard from '../components/GlassCard';
 import AnimatedGauge from '../components/AnimatedGauge';
 import VideoBackground from '../components/VideoBackground';
@@ -111,8 +109,6 @@ export default function HomeScreen({ navigation }) {
 
       <VideoBackground source={require('../../assets/videos/home.mp4')} />
 
-      <AnimatedGradientBackground />
-      <ParticleField />
 
       <ScreenWrapper style={{ flex: 1 }}>
       <Animated.ScrollView

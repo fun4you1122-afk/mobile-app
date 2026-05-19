@@ -6,7 +6,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Colors } from '../theme/colors';
 import { Typography } from '../theme/typography';
 import GlassCard from '../components/GlassCard';
-import AnimatedGradientBackground from '../components/AnimatedGradientBackground';
 import VideoBackground from '../components/VideoBackground';
 import ScreenWrapper from '../components/ScreenWrapper';
 
@@ -132,7 +131,6 @@ export default function ServicesScreen() {
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
       <VideoBackground source={require('../../assets/videos/services.mp4')} />
-      <AnimatedGradientBackground />
 
       <ScreenWrapper style={{ flex: 1 }}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
