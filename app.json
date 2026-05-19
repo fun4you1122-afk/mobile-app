@@ -1,0 +1,34 @@
+{
+  "expo": {
+    "name": "WeThink",
+    "slug": "wethink-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/logo.png",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/images/logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#050815"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "ae.wethink.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/logo.png",
+        "backgroundColor": "#050815"
+      },
+      "edgeToEdgeEnabled": true,
+      "package": "ae.wethink.app"
+    },
+    "web": {
+      "favicon": "./assets/images/logo.png"
+    },
+    "plugins": [
+      "expo-font"
+    ]
+  }
+}
