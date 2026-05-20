@@ -112,7 +112,11 @@ function ServiceCard({ item, index, navigation }) {
 
         <TouchableOpacity
           style={[styles.quoteBtn, { borderColor: item.color + '80', backgroundColor: item.color + '15' }]}
-          onPress={() => navigation.navigate('Contact')}
+          onPress={() => navigation.navigate('WebView', {
+            url: 'https://www.refrens.com/en-ae/free-online-quotation-generator',
+            title: 'Get a Quote',
+            color: item.color,
+          })}
           activeOpacity={0.8}
         >
           <Text style={[Typography.button, { color: item.color, fontSize: 14 }]}>Get a Quote →</Text>
