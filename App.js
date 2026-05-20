@@ -55,15 +55,14 @@ function CustomTabBar({ state, navigation }) {
       <View style={styles.tabBarInner}>
         {TABS.map((tab, index) => {
           const isFocused = state.index === index;
-          const isTools = tab.name === 'Tools';
           return (
             <TouchableOpacity
               key={tab.name}
               onPress={() => navigation.navigate(tab.name)}
-              style={[styles.tabItem, isTools && styles.tabItemTools]}
+              style={styles.tabItem}
               activeOpacity={0.7}
             >
-              {isFocused && !isTools && (
+              {isFocused && (
                 <LinearGradient
                   colors={['rgba(0,212,170,0.18)', 'rgba(124,58,237,0.18)']}
                   style={StyleSheet.absoluteFill}
@@ -71,24 +70,11 @@ function CustomTabBar({ state, navigation }) {
                   end={{ x: 1, y: 1 }}
                 />
               )}
-              {isTools ? (
-                <LinearGradient
-                  colors={isFocused ? ['#00D4AA', '#7C3AED'] : ['rgba(0,212,170,0.3)', 'rgba(124,58,237,0.3)']}
-                  start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
-                  style={styles.toolsGradientBtn}
-                >
-                  <Text style={{ fontSize: 20 }}>{tab.icon}</Text>
-                  <Text style={[styles.tabLabel, { color: '#fff', fontSize: 8 }]}>{tab.name}</Text>
-                </LinearGradient>
-              ) : (
-                <>
-                  <Text style={{ fontSize: 18 }}>{tab.icon}</Text>
-                  <Text style={[styles.tabLabel, { color: isFocused ? Colors.teal : Colors.textMuted }]}>
-                    {tab.name}
-                  </Text>
-                  {isFocused && <View style={styles.activeDot} />}
-                </>
-              )}
+              <Text style={{ fontSize: 18 }}>{tab.icon}</Text>
+              <Text style={[styles.tabLabel, { color: isFocused ? Colors.teal : Colors.textMuted }]}>
+                {tab.name}
+              </Text>
+              {isFocused && <View style={styles.activeDot} />}
             </TouchableOpacity>
           );
         })}
@@ -148,17 +134,6 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     position: 'relative',
     marginHorizontal: 2,
-  },
-  tabItemTools: {
-    flex: 1.2,
-  },
-  toolsGradientBtn: {
-    width: '100%',
-    height: 52,
-    borderRadius: 14,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 2,
   },
   tabLabel: {
     fontSize: 9,

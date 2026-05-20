@@ -24,7 +24,7 @@ const TOOLS = [
     desc: 'Get expert-level answers on IT strategy, market insights, and business decisions — instantly.',
     color: Colors.purple,
     glow: Colors.glowPurple,
-    url: 'https://www.perplexity.ai/',
+    url: 'https://labs.perplexity.ai/',
     badge: 'CONSULTATION',
   },
   {
@@ -34,7 +34,7 @@ const TOOLS = [
     desc: 'Full business intelligence: manage customers, run payroll, analyse data, and automate workflows.',
     color: Colors.blue,
     glow: Colors.glowBlue,
-    url: 'https://www.zoho.com/',
+    url: 'https://www.zoho.com/en-us/',
     badge: 'BUSINESS',
   },
   {
