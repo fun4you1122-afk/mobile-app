@@ -110,11 +110,11 @@ export default function InteractiveLineChart({
             );
           })}
 
-          {/* Month labels */}
+          {/* Month labels — only show every 3rd to avoid overlap */}
           {data.map((_, i) => {
-            if (i % 2 !== 0 && i !== data.length - 1) return null;
+            if (i % 3 !== 0 && i !== data.length - 1) return null;
             return (
-              <SvgText key={i} x={getX(i)} y={H - 4} fontSize={9} fill="rgba(255,255,255,0.4)" textAnchor="middle">
+              <SvgText key={i} x={getX(i)} y={H - 4} fontSize={8} fill="rgba(255,255,255,0.4)" textAnchor="middle">
                 {MONTHS[i]}
               </SvgText>
             );
