@@ -163,27 +163,27 @@ export default function HomeScreen({ navigation }) {
   const scrollY = useRef(new Animated.Value(0)).current;
 
   const SERVICES = [
-    { icon: '🌐', title: 'Web Development', desc: 'Stunning websites that convert visitors into customers', color: colors.teal },
-    { icon: '💡', title: 'IT Consulting', desc: 'Strategic tech guidance to scale your UAE business', color: colors.blue },
-    { icon: '📱', title: 'Mobile Apps', desc: 'iOS & Android apps built for growth and retention', color: colors.purple },
-    { icon: '🚀', title: 'Digital Solutions', desc: 'End-to-end digital transformation from the UAE', color: colors.teal },
-    { icon: '🎨', title: 'Brand Identity', desc: 'Distinctive brands that win in the digital age', color: colors.blue },
-    { icon: '📊', title: 'Digital Marketing', desc: 'Data-driven campaigns tailored for the UAE market', color: colors.purple },
+    { icon: '🌐', title: t('svcWebTitle'), desc: t('svcWebDesc'), color: colors.teal },
+    { icon: '💡', title: t('svcItTitle'), desc: t('svcItDesc'), color: colors.blue },
+    { icon: '📱', title: t('svcMobileTitle'), desc: t('svcMobileDesc'), color: colors.purple },
+    { icon: '🚀', title: t('svcDigitalTitle'), desc: t('svcDigitalDesc'), color: colors.teal },
+    { icon: '🎨', title: t('svcBrandTitle'), desc: t('svcBrandDesc'), color: colors.blue },
+    { icon: '📊', title: t('svcMarketingTitle'), desc: t('svcMarketingDesc'), color: colors.purple },
   ];
 
   const RECENT_WORK = [
-    { title: 'Digital Presence Platform', cat: 'WEB', icon: '🌐', color: colors.teal },
-    { title: 'E-Commerce Mobile App', cat: 'MOBILE', icon: '📱', color: colors.blue },
-    { title: 'Corporate Rebrand', cat: 'BRANDING', icon: '🎨', color: colors.purple },
-    { title: 'Cloud Migration', cat: 'CONSULTING', icon: '☁️', color: colors.teal },
-    { title: 'Real Estate Portal', cat: 'WEB', icon: '🏢', color: colors.blue },
+    { title: t('work1Title'), cat: t('catWeb'), icon: '🌐', color: colors.teal },
+    { title: t('work2Title'), cat: t('catMobile'), icon: '📱', color: colors.blue },
+    { title: t('work3Title'), cat: t('catBranding'), icon: '🎨', color: colors.purple },
+    { title: t('work4Title'), cat: t('catConsulting'), icon: '☁️', color: colors.teal },
+    { title: t('work5Title'), cat: t('catWeb'), icon: '🏢', color: colors.blue },
   ];
 
   const GAUGES = [
-    { value: 93, maxValue: 100, label: 'Satisfaction', color: colors.teal, unit: '%' },
-    { value: 50, maxValue: 60, label: 'Projects', color: colors.blue, unit: '+' },
-    { value: 8, maxValue: 10, label: 'Following', color: colors.purple, unit: 'K' },
-    { value: 24, maxValue: 30, label: 'Avg ROI', color: colors.teal, unit: 'x' },
+    { value: 93, maxValue: 100, label: t('gaugeSatisfaction'), color: colors.teal, unit: '%' },
+    { value: 50, maxValue: 60, label: t('gaugeProjects'), color: colors.blue, unit: '+' },
+    { value: 8, maxValue: 10, label: t('gaugeFollowing'), color: colors.purple, unit: 'K' },
+    { value: 24, maxValue: 30, label: t('gaugeRoi'), color: colors.teal, unit: 'x' },
   ];
 
   useEffect(() => {
@@ -224,9 +224,9 @@ export default function HomeScreen({ navigation }) {
             </Animated.View>
 
             <Animated.View style={{ opacity: heroOpacityScroll, alignItems: 'center' }}>
-              <TypewriterText text="WETHINK" style={[styles.heroTitle, { color: colors.textPrimary }]} delay={200} />
-              <TypewriterText text="We think big. You achieve bigger." style={[styles.heroSubtitle, { color: colors.textSecondary }]} delay={1200} />
-              <Text style={[styles.tagline, { color: colors.teal }]}>THINK · PLAN · GROW</Text>
+              <TypewriterText text={t('heroBrand')} style={[styles.heroTitle, { color: colors.textPrimary }]} delay={200} />
+              <TypewriterText text={t('heroSlogan')} style={[styles.heroSubtitle, { color: colors.textSecondary }]} delay={1200} />
+              <Text style={[styles.tagline, { color: colors.teal }]}>{t('heroTagline')}</Text>
 
               <View style={styles.heroCTA}>
                 <TouchableOpacity style={styles.ctaPrimary} onPress={() => navigation.navigate('Contact')} activeOpacity={0.85}>
@@ -243,12 +243,12 @@ export default function HomeScreen({ navigation }) {
 
           {/* Scrolling marquee ticker */}
           <View style={[styles.marqueeWrap, { borderColor: colors.border }]}>
-            <Marquee text="WEB DEVELOPMENT · MOBILE APPS · IT CONSULTING · DIGITAL SOLUTIONS · BRAND IDENTITY · UAE BASED" color={colors.teal} speed={40} />
+            <Marquee text={t('marquee1')} color={colors.teal} speed={40} />
           </View>
 
           {/* Gauges — 4 in one row */}
           <View style={styles.section}>
-            <Text style={[styles.sectionLabel, { color: colors.teal }]}>BY THE NUMBERS</Text>
+            <Text style={[styles.sectionLabel, { color: colors.teal }]}>{t('byTheNumbers')}</Text>
             <View style={[styles.gaugesRow, { backgroundColor: colors.surface, borderColor: colors.border }]}>
               {GAUGES.map((g, i) => <AnimatedGauge key={i} {...g} index={i} />)}
             </View>
@@ -256,7 +256,7 @@ export default function HomeScreen({ navigation }) {
 
           {/* Horizontal scrolling services */}
           <View style={[styles.section, { paddingHorizontal: 0 }]}>
-            <Text style={[styles.sectionLabel, { paddingHorizontal: 16, color: colors.teal }]}>WHAT WE DO</Text>
+            <Text style={[styles.sectionLabel, { paddingHorizontal: 16, color: colors.teal }]}>{t('whatWeDo')}</Text>
             <Text style={[Typography.h2, { color: colors.textPrimary, marginBottom: 16, paddingHorizontal: 16 }]}>{t('ourServices')}</Text>
             <ScrollView
               horizontal
@@ -272,7 +272,7 @@ export default function HomeScreen({ navigation }) {
 
           {/* Horizontal scrolling recent work */}
           <View style={[styles.section, { paddingHorizontal: 0 }]}>
-            <Text style={[styles.sectionLabel, { paddingHorizontal: 16, color: colors.teal }]}>RECENT WORK</Text>
+            <Text style={[styles.sectionLabel, { paddingHorizontal: 16, color: colors.teal }]}>{t('recentWorkLabel')}</Text>
             <Text style={[Typography.h2, { color: colors.textPrimary, marginBottom: 16, paddingHorizontal: 16 }]}>{t('recentWork')}</Text>
             <ScrollView
               horizontal
@@ -288,22 +288,22 @@ export default function HomeScreen({ navigation }) {
 
           {/* Second marquee */}
           <View style={[styles.marqueeWrap, { marginTop: 24, borderColor: colors.border }]}>
-            <Marquee text="CLIENT SATISFACTION 93% · 50+ PROJECTS DELIVERED · 8K SOCIAL FOLLOWING · UAE FOCUS 100%" color={colors.purple} speed={35} />
+            <Marquee text={t('marquee2')} color={colors.purple} speed={35} />
           </View>
 
           {/* Interactive Charts */}
           <View style={styles.section}>
-            <Text style={[styles.sectionLabel, { color: colors.teal }]}>GROWTH & PERFORMANCE</Text>
-            <Text style={[Typography.h2, { color: colors.textPrimary, marginBottom: 6 }]}>Live Insights</Text>
+            <Text style={[styles.sectionLabel, { color: colors.teal }]}>{t('growthPerf')}</Text>
+            <Text style={[Typography.h2, { color: colors.textPrimary, marginBottom: 6 }]}>{t('liveInsights')}</Text>
             <Text style={[Typography.bodySmall, { color: colors.textSecondary, marginBottom: 16 }]}>
-              Drag the line chart · Tap bars to reveal data
+              {t('chartInstruction')}
             </Text>
             <View style={[styles.chartCard, { backgroundColor: colors.surface, borderColor: colors.border }]}>
-              <InteractiveLineChart data={[8, 12, 10, 18, 22, 19, 28, 33, 31, 38, 44, 50]} label="Client Acquisitions — 2024" color={colors.teal} unit="clients" />
+              <InteractiveLineChart data={[8, 12, 10, 18, 22, 19, 28, 33, 31, 38, 44, 50]} label={t('chartLineLabel')} color={colors.teal} unit="clients" />
             </View>
             <View style={[styles.chartCard, { marginTop: 16, backgroundColor: colors.surface, borderColor: colors.border }]}>
               <InteractiveBarChart
-                label="Service Revenue Mix"
+                label={t('chartBarLabel')}
                 data={[
                   { label: 'Web', value: 35, color: colors.teal },
                   { label: 'Mobile', value: 28, color: colors.blue },
@@ -321,8 +321,8 @@ export default function HomeScreen({ navigation }) {
               <View style={styles.ctaBanner}>
                 <Text style={{ fontSize: 28 }}>💬</Text>
                 <View style={{ flex: 1, marginLeft: 14 }}>
-                  <Text style={[Typography.h4, { color: colors.textPrimary }]}>Ready to grow?</Text>
-                  <Text style={[Typography.bodySmall, { color: colors.textSecondary, marginTop: 3 }]}>Let's build your digital future together</Text>
+                  <Text style={[Typography.h4, { color: colors.textPrimary }]}>{t('ctaReadyTitle')}</Text>
+                  <Text style={[Typography.bodySmall, { color: colors.textSecondary, marginTop: 3 }]}>{t('ctaReadyDesc')}</Text>
                 </View>
                 <Text style={{ color: colors.teal, fontSize: 20 }}>→</Text>
               </View>

@@ -12,13 +12,7 @@ import { useTheme } from '../context/AppContext';
 
 const { width } = Dimensions.get('window');
 
-const CATEGORIES = ['All', 'Web', 'Mobile', 'Branding', 'Consulting'];
-
-const QUICK_STATS = [
-  { value: '50+', label: 'Projects' },
-  { value: '5', label: 'Years' },
-  { value: '100%', label: 'UAE Focus' },
-];
+// CATEGORIES and QUICK_STATS are built inside the component using t()
 
 function FeaturedProjectCard({ item }) {
   const { colors, t } = useTheme();
@@ -41,7 +35,7 @@ function FeaturedProjectCard({ item }) {
         >
           <Text style={{ fontSize: 64 }}>{item.icon}</Text>
           <View style={[styles.featuredBadge, { backgroundColor: item.color }]}>
-            <Text style={[Typography.label, { color: '#fff', fontSize: 10 }]}>FEATURED</Text>
+            <Text style={[Typography.label, { color: '#fff', fontSize: 10 }]}>{t('featured')}</Text>
           </View>
         </LinearGradient>
 
@@ -141,17 +135,34 @@ function ProjectCard({ item, index }) {
 
 export default function PortfolioScreen() {
   const { colors, t, isDark } = useTheme();
-  const [activeCategory, setActiveCategory] = useState('All');
+  const CATEGORIES_KEYS = ['catAll', 'catWebFilter', 'catMobileFilter', 'catBrandingFilter', 'catConsultingFilter'];
+  const CATEGORIES = CATEGORIES_KEYS.map(k => t(k));
+  const [activeCategory, setActiveCategory] = useState(t('catAll'));
   const headerAnim = useRef(new Animated.Value(0)).current;
   const filterAnim = useRef(new Animated.Value(0)).current;
 
+  const QUICK_STATS = [
+    { value: t('statProjects'), label: t('statProjectsLabel') },
+    { value: t('statYears'), label: t('statYearsLabel') },
+    { value: t('statUae'), label: t('statUaeLabel') },
+  ];
+
+  // Map translated category names back to English for filtering
+  const catMap = {
+    [t('catAll')]: 'All',
+    [t('catWebFilter')]: 'Web',
+    [t('catMobileFilter')]: 'Mobile',
+    [t('catBrandingFilter')]: 'Branding',
+    [t('catConsultingFilter')]: 'Consulting',
+  };
+
   const PROJECTS = [
-    { title: 'Digital Presence Platform', category: 'Web', desc: 'A full digital suite for a UAE enterprise — website, admin panel, and CRM integration.', tags: ['React', 'Node.js', 'UAE'], color: colors.teal, icon: '🌐' },
-    { title: 'E-Commerce Mobile App', category: 'Mobile', desc: 'iOS & Android shopping app with AR product preview and one-tap checkout.', tags: ['React Native', 'iOS', 'Android'], color: colors.blue, icon: '📱' },
-    { title: 'Corporate Rebrand', category: 'Branding', desc: 'Complete brand identity overhaul for a Dubai-based financial services firm.', tags: ['Identity', 'UI Kit', 'Dubai'], color: colors.purple, icon: '🎨' },
-    { title: 'Cloud Migration Strategy', category: 'Consulting', desc: 'Led a 3-month cloud migration for a 200-person company with zero downtime.', tags: ['AWS', 'Strategy', 'DevOps'], color: colors.teal, icon: '☁️' },
-    { title: 'Real Estate Portal', category: 'Web', desc: 'Property listing and virtual tour platform targeting the UAE luxury market.', tags: ['Next.js', '3D Tours', 'Bilingual'], color: colors.blue, icon: '🏢' },
-    { title: 'HealthTech Dashboard', category: 'Mobile', desc: 'Patient management mobile app for a network of UAE clinics.', tags: ['React Native', 'HL7', 'Arabic'], color: colors.purple, icon: '🏥' },
+    { title: t('proj1Title'), category: 'Web', desc: t('proj1Desc'), tags: t('proj1Tags'), color: colors.teal, icon: '🌐' },
+    { title: t('proj2Title'), category: 'Mobile', desc: t('proj2Desc'), tags: t('proj2Tags'), color: colors.blue, icon: '📱' },
+    { title: t('proj3Title'), category: 'Branding', desc: t('proj3Desc'), tags: t('proj3Tags'), color: colors.purple, icon: '🎨' },
+    { title: t('proj4Title'), category: 'Consulting', desc: t('proj4Desc'), tags: t('proj4Tags'), color: colors.teal, icon: '☁️' },
+    { title: t('proj5Title'), category: 'Web', desc: t('proj5Desc'), tags: t('proj5Tags'), color: colors.blue, icon: '🏢' },
+    { title: t('proj6Title'), category: 'Mobile', desc: t('proj6Desc'), tags: t('proj6Tags'), color: colors.purple, icon: '🏥' },
   ];
 
   useEffect(() => {
@@ -161,9 +172,10 @@ export default function PortfolioScreen() {
     ]).start();
   }, []);
 
-  const filtered = activeCategory === 'All'
+  const englishCat = catMap[activeCategory] ?? 'All';
+  const filtered = englishCat === 'All'
     ? PROJECTS
-    : PROJECTS.filter(p => p.category === activeCategory);
+    : PROJECTS.filter(p => p.category === englishCat);
 
   const featured = filtered[0];
   const rest = filtered.slice(1);
@@ -179,7 +191,7 @@ export default function PortfolioScreen() {
           opacity: headerAnim,
           transform: [{ translateY: headerAnim.interpolate({ inputRange: [0, 1], outputRange: [-20, 0] }) }],
         }]}>
-          <Text style={[styles.sectionLabel, { color: colors.teal }]}>OUR WORK</Text>
+          <Text style={[styles.sectionLabel, { color: colors.teal }]}>{t('ourWork')}</Text>
           <Text style={[Typography.h1, { color: colors.textPrimary }]}>{t('portfolioTitle')}</Text>
           <Text style={[Typography.body, { color: colors.textSecondary, marginTop: 8 }]}>
             {t('portfolioSub')}

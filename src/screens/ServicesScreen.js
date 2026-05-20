@@ -88,54 +88,12 @@ export default function ServicesScreen({ navigation }) {
   const headerAnim = useRef(new Animated.Value(0)).current;
 
   const SERVICES = [
-    {
-      icon: '🌐',
-      title: 'Web Development',
-      desc: 'We craft websites that do more than look good — they convert visitors into customers. From landing pages to full e-commerce platforms.',
-      features: ['Custom Design', 'SEO Optimized', 'Mobile First', 'Fast Loading'],
-      color: colors.teal,
-      glow: colors.glowTeal,
-    },
-    {
-      icon: '💡',
-      title: 'IT Consulting',
-      desc: 'Strategic technology guidance to help UAE businesses scale. We align your tech infrastructure with your growth goals.',
-      features: ['Tech Strategy', 'System Audits', 'Cloud Migration', 'Security Review'],
-      color: colors.blue,
-      glow: colors.glowBlue,
-    },
-    {
-      icon: '📱',
-      title: 'Mobile Apps',
-      desc: 'iOS and Android apps built with precision. We turn your idea into a polished product your customers will love using every day.',
-      features: ['iOS & Android', 'UI/UX Design', 'API Integration', 'App Store Launch'],
-      color: colors.purple,
-      glow: colors.glowPurple,
-    },
-    {
-      icon: '🚀',
-      title: 'Digital Solutions',
-      desc: 'End-to-end digital transformation. We modernize your operations, automate your workflows, and build systems that scale.',
-      features: ['Process Automation', 'CRM Systems', 'Data Analytics', 'Digital Strategy'],
-      color: colors.teal,
-      glow: colors.glowTeal,
-    },
-    {
-      icon: '🎨',
-      title: 'Brand Identity',
-      desc: 'Your brand is your first impression. We design identities that are distinctive, memorable, and built for the digital age.',
-      features: ['Logo Design', 'Brand Guidelines', 'Social Media Kit', 'Print Assets'],
-      color: colors.blue,
-      glow: colors.glowBlue,
-    },
-    {
-      icon: '📊',
-      title: 'Digital Marketing',
-      desc: 'Data-driven marketing strategies that get results. SEO, social media, and paid ads tailored for the UAE market.',
-      features: ['SEO & SEM', 'Social Ads', 'Content Strategy', 'Analytics'],
-      color: colors.purple,
-      glow: colors.glowPurple,
-    },
+    { icon: '🌐', title: t('svcWebTitle'), desc: t('svcWebDescFull'), features: t('svcWebFeatures'), color: colors.teal, glow: colors.glowTeal },
+    { icon: '💡', title: t('svcItTitle'), desc: t('svcItDescFull'), features: t('svcItFeatures'), color: colors.blue, glow: colors.glowBlue },
+    { icon: '📱', title: t('svcMobileTitle'), desc: t('svcMobileDescFull'), features: t('svcMobileFeatures'), color: colors.purple, glow: colors.glowPurple },
+    { icon: '🚀', title: t('svcDigitalTitle'), desc: t('svcDigitalDescFull'), features: t('svcDigitalFeatures'), color: colors.teal, glow: colors.glowTeal },
+    { icon: '🎨', title: t('svcBrandTitle'), desc: t('svcBrandDescFull'), features: t('svcBrandFeatures'), color: colors.blue, glow: colors.glowBlue },
+    { icon: '📊', title: t('svcMarketingTitle'), desc: t('svcMarketingDescFull'), features: t('svcMarketingFeatures'), color: colors.purple, glow: colors.glowPurple },
   ];
 
   useEffect(() => {
@@ -153,7 +111,7 @@ export default function ServicesScreen({ navigation }) {
           opacity: headerAnim,
           transform: [{ translateY: headerAnim.interpolate({ inputRange: [0, 1], outputRange: [-20, 0] }) }],
         }]}>
-          <Text style={[styles.sectionLabel, { color: colors.teal }]}>EXPERTISE</Text>
+          <Text style={[styles.sectionLabel, { color: colors.teal }]}>{t('expertise')}</Text>
           <Text style={[Typography.h1, { color: colors.textPrimary }]}>{t('servicesTitle')}</Text>
           <Text style={[Typography.body, { color: colors.textSecondary, marginTop: 8, lineHeight: 26 }]}>
             {t('servicesSub')}

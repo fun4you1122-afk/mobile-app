@@ -79,46 +79,10 @@ export default function ToolsScreen({ navigation }) {
   const headerAnim = useRef(new Animated.Value(0)).current;
 
   const TOOLS = [
-    {
-      icon: '🤖',
-      name: 'WeGPT',
-      tagline: 'AI-Powered Assistant',
-      desc: 'Ask anything. Get instant AI answers powered by open-source models. Research, write, and think smarter.',
-      color: colors.teal,
-      glow: colors.glowTeal,
-      url: 'https://deepai.org/chat',
-      badge: 'AI CHAT',
-    },
-    {
-      icon: '💡',
-      name: 'Rasha Instant Consultation',
-      tagline: 'Smart Business Research',
-      desc: 'Get expert-level answers on IT strategy, market insights, and business decisions — instantly.',
-      color: colors.purple,
-      glow: colors.glowPurple,
-      url: 'https://you.com/search?fromSearchBar=true&tbm=youchat',
-      badge: 'CONSULTATION',
-    },
-    {
-      icon: '📊',
-      name: 'Data Analysis Suite',
-      tagline: 'CRM · Payroll · Analytics',
-      desc: 'Full business intelligence: manage customers, run payroll, analyse data, and automate workflows with HubSpot.',
-      color: colors.blue,
-      glow: colors.glowBlue,
-      url: 'https://app.hubspot.com/login',
-      badge: 'BUSINESS',
-    },
-    {
-      icon: '📋',
-      name: 'Quote Generator',
-      tagline: 'Professional Quotations',
-      desc: 'Create stunning, professional quotes and invoices for your clients in minutes. Free online tool.',
-      color: colors.teal,
-      glow: colors.glowTeal,
-      url: 'https://www.refrens.com/en-ae/free-online-quotation-generator',
-      badge: 'QUOTES',
-    },
+    { icon: '🤖', name: t('tool1Name'), tagline: t('tool1Tagline'), desc: t('tool1Desc'), color: colors.teal, glow: colors.glowTeal, url: 'https://deepai.org/chat', badge: t('tool1Badge') },
+    { icon: '💡', name: t('tool2Name'), tagline: t('tool2Tagline'), desc: t('tool2Desc'), color: colors.purple, glow: colors.glowPurple, url: 'https://you.com/search?fromSearchBar=true&tbm=youchat', badge: t('tool2Badge') },
+    { icon: '📊', name: t('tool3Name'), tagline: t('tool3Tagline'), desc: t('tool3Desc'), color: colors.blue, glow: colors.glowBlue, url: 'https://app.hubspot.com/login', badge: t('tool3Badge') },
+    { icon: '📋', name: t('tool4Name'), tagline: t('tool4Tagline'), desc: t('tool4Desc'), color: colors.teal, glow: colors.glowTeal, url: 'https://www.refrens.com/en-ae/free-online-quotation-generator', badge: t('tool4Badge') },
   ];
 
   useEffect(() => {
@@ -142,7 +106,7 @@ export default function ToolsScreen({ navigation }) {
           opacity: headerAnim,
           transform: [{ translateY: headerAnim.interpolate({ inputRange: [0, 1], outputRange: [-20, 0] }) }],
         }]}>
-          <Text style={[styles.sectionLabel, { color: colors.teal }]}>POWERED BY WETHINK</Text>
+          <Text style={[styles.sectionLabel, { color: colors.teal }]}>{t('poweredBy')}</Text>
           <Text style={[Typography.h1, { color: colors.textPrimary }]}>{t('toolsTitle')}</Text>
           <Text style={[Typography.body, { color: colors.textSecondary, marginTop: 8, lineHeight: 26 }]}>
             {t('toolsSub')}

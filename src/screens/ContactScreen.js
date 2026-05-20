@@ -63,54 +63,12 @@ export default function ContactScreen() {
   const successOpacity = useRef(new Animated.Value(0)).current;
 
   const CONTACT_METHODS = [
-    {
-      icon: '💬',
-      label: 'WhatsApp',
-      value: PHONE,
-      color: '#25D366',
-      glow: 'rgba(37,211,102,0.4)',
-      action: () => Linking.openURL(`https://wa.me/${WHATSAPP_NUMBER}`),
-    },
-    {
-      icon: '📞',
-      label: 'Call Us',
-      value: PHONE,
-      color: colors.blue,
-      glow: colors.glowBlue,
-      action: () => Linking.openURL(`tel:${PHONE}`),
-    },
-    {
-      icon: '📧',
-      label: 'Email',
-      value: 'Info@wethink.ae',
-      color: colors.teal,
-      glow: colors.glowTeal,
-      action: () => Linking.openURL('mailto:Info@wethink.ae'),
-    },
-    {
-      icon: '🌐',
-      label: 'Website',
-      value: 'www.wethink.ae',
-      color: colors.purple,
-      glow: colors.glowPurple,
-      action: () => Linking.openURL('https://www.wethink.ae'),
-    },
-    {
-      icon: '📸',
-      label: 'Instagram',
-      value: '@wethink.ae',
-      color: '#E1306C',
-      glow: 'rgba(225,48,108,0.4)',
-      action: () => Linking.openURL('https://www.instagram.com/wethink.ae'),
-    },
-    {
-      icon: '💼',
-      label: 'LinkedIn',
-      value: 'Rasha Aljalam',
-      color: '#0A66C2',
-      glow: 'rgba(10,102,194,0.4)',
-      action: () => Linking.openURL('https://www.linkedin.com/in/rasha-aljalam'),
-    },
+    { icon: '💬', label: t('contactWhatsapp'), value: PHONE, color: '#25D366', glow: 'rgba(37,211,102,0.4)', action: () => Linking.openURL(`https://wa.me/${WHATSAPP_NUMBER}`) },
+    { icon: '📞', label: t('contactCall'), value: PHONE, color: colors.blue, glow: colors.glowBlue, action: () => Linking.openURL(`tel:${PHONE}`) },
+    { icon: '📧', label: t('contactEmail'), value: 'Info@wethink.ae', color: colors.teal, glow: colors.glowTeal, action: () => Linking.openURL('mailto:Info@wethink.ae') },
+    { icon: '🌐', label: t('contactWebsite'), value: 'www.wethink.ae', color: colors.purple, glow: colors.glowPurple, action: () => Linking.openURL('https://www.wethink.ae') },
+    { icon: '📸', label: t('contactInstagram'), value: '@wethink.ae', color: '#E1306C', glow: 'rgba(225,48,108,0.4)', action: () => Linking.openURL('https://www.instagram.com/wethink.ae') },
+    { icon: '💼', label: t('contactLinkedIn'), value: 'Rasha Aljalam', color: '#0A66C2', glow: 'rgba(10,102,194,0.4)', action: () => Linking.openURL('https://www.linkedin.com/in/rasha-aljalam') },
   ];
 
   useEffect(() => {
@@ -180,13 +138,13 @@ export default function ContactScreen() {
               </View>
               <View style={styles.ceoInfo}>
                 <View style={[styles.ceoBadge, { backgroundColor: colors.glowPurple, borderColor: colors.purple + '50' }]}>
-                  <Text style={[Typography.label, { color: colors.purple, fontSize: 9 }]}>CEO & FOUNDER</Text>
+                  <Text style={[Typography.label, { color: colors.purple, fontSize: 9 }]}>{t('ceoRole')}</Text>
                 </View>
                 <Text style={[Typography.h3, { color: colors.textPrimary, marginTop: 8 }]}>
                   Rasha{'\n'}Aljalam
                 </Text>
                 <Text style={[Typography.bodySmall, { color: colors.textSecondary, marginTop: 6, lineHeight: 18 }]}>
-                  IT Consulting &{'\n'}Digital Solutions
+                  {t('ceoItLine')}
                 </Text>
                 <TouchableOpacity
                   style={styles.linkedinBtn}
@@ -194,7 +152,7 @@ export default function ContactScreen() {
                   activeOpacity={0.8}
                 >
                   <Text style={{ fontSize: 12 }}>💼</Text>
-                  <Text style={[Typography.label, { color: '#0A66C2', fontSize: 9, marginLeft: 4 }]}>LinkedIn</Text>
+                  <Text style={[Typography.label, { color: '#0A66C2', fontSize: 9, marginLeft: 4 }]}>{t('ceoLinkedIn')}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -203,7 +161,7 @@ export default function ContactScreen() {
             <View style={[styles.addressRow, { borderTopColor: colors.border }]}>
               <Text style={{ fontSize: 16 }}>📍</Text>
               <Text style={[Typography.bodySmall, { color: colors.textSecondary, marginLeft: 10, flex: 1 }]}>
-                Pixel, Al Reem Island, Makers District, Abu Dhabi, UAE
+                {t('addressLine')}
               </Text>
             </View>
           </GlassCard>
@@ -220,7 +178,7 @@ export default function ContactScreen() {
           transform: [{ translateY: formAnim.interpolate({ inputRange: [0, 1], outputRange: [30, 0] }) }],
         }]}>
           <Text style={[Typography.h3, { color: colors.textPrimary, marginBottom: 20 }]}>
-            Send an Inquiry
+            {t('sendInquiry')}
           </Text>
 
           {submitted ? (
@@ -239,7 +197,7 @@ export default function ContactScreen() {
                 <Text style={[styles.inputLabel, { color: colors.textSecondary }]}>{t('yourName')}</Text>
                 <TextInput
                   style={[styles.input, { backgroundColor: colors.inputBg, borderColor: colors.border, color: colors.textPrimary }]}
-                  placeholder="John Smith"
+                  placeholder={t('namePlaceholder')}
                   placeholderTextColor={colors.textMuted}
                   value={name}
                   onChangeText={setName}
@@ -250,7 +208,7 @@ export default function ContactScreen() {
                 <Text style={[styles.inputLabel, { color: colors.textSecondary }]}>{t('emailAddress')}</Text>
                 <TextInput
                   style={[styles.input, { backgroundColor: colors.inputBg, borderColor: colors.border, color: colors.textPrimary }]}
-                  placeholder="you@company.com"
+                  placeholder={t('emailPlaceholder')}
                   placeholderTextColor={colors.textMuted}
                   value={email}
                   onChangeText={setEmail}
@@ -263,7 +221,7 @@ export default function ContactScreen() {
                 <Text style={[styles.inputLabel, { color: colors.textSecondary }]}>{t('yourMessage')}</Text>
                 <TextInput
                   style={[styles.input, styles.textArea, { backgroundColor: colors.inputBg, borderColor: colors.border, color: colors.textPrimary }]}
-                  placeholder="Tell us about your project..."
+                  placeholder={t('messagePlaceholder')}
                   placeholderTextColor={colors.textMuted}
                   value={message}
                   onChangeText={setMessage}
