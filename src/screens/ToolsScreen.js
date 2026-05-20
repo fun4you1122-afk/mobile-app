@@ -5,8 +5,6 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { Colors } from '../theme/colors';
 import { Typography } from '../theme/typography';
-import VideoBackground from '../components/VideoBackground';
-import ScreenWrapper from '../components/ScreenWrapper';
 
 const TOOLS = [
   {
@@ -129,29 +127,29 @@ export default function ToolsScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
-      <VideoBackground source={require('../../assets/videos/services.mp4')} />
+      <LinearGradient
+        colors={['#050815', '#080d1c', '#0a0f24']}
+        style={StyleSheet.absoluteFill}
+      />
 
-      <ScreenWrapper style={{ flex: 1 }}>
-        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
+        <Animated.View style={[styles.header, {
+          opacity: headerAnim,
+          transform: [{ translateY: headerAnim.interpolate({ inputRange: [0, 1], outputRange: [-20, 0] }) }],
+        }]}>
+          <Text style={styles.sectionLabel}>POWERED BY WETHINK</Text>
+          <Text style={[Typography.h1, { color: Colors.textPrimary }]}>Smart Tools</Text>
+          <Text style={[Typography.body, { color: Colors.textSecondary, marginTop: 8, lineHeight: 26 }]}>
+            AI-powered tools and business solutions — all in one place, built for your success.
+          </Text>
+        </Animated.View>
 
-          <Animated.View style={[styles.header, {
-            opacity: headerAnim,
-            transform: [{ translateY: headerAnim.interpolate({ inputRange: [0, 1], outputRange: [-20, 0] }) }],
-          }]}>
-            <Text style={styles.sectionLabel}>POWERED BY WETHINK</Text>
-            <Text style={[Typography.h1, { color: Colors.textPrimary }]}>Smart Tools</Text>
-            <Text style={[Typography.body, { color: Colors.textSecondary, marginTop: 8, lineHeight: 26 }]}>
-              AI-powered tools and business solutions — all in one place, built for your success.
-            </Text>
-          </Animated.View>
+        {TOOLS.map((item, i) => (
+          <ToolCard key={i} item={item} index={i} navigation={navigation} />
+        ))}
 
-          {TOOLS.map((item, i) => (
-            <ToolCard key={i} item={item} index={i} navigation={navigation} />
-          ))}
-
-          <View style={{ height: 120 }} />
-        </ScrollView>
-      </ScreenWrapper>
+        <View style={{ height: 120 }} />
+      </ScrollView>
     </View>
   );
 }

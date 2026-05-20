@@ -41,6 +41,10 @@ const TAB_SCREENS = {
 function CustomTabBar({ state, navigation }) {
   const insets = useSafeAreaInsets();
 
+  // Hide tab bar when on the WebView screen
+  const currentRoute = state.routes[state.index]?.name;
+  if (currentRoute === 'WebView') return null;
+
   return (
     <View style={[styles.tabBarOuter, { paddingBottom: Math.max(insets.bottom, 14) }]}>
       <LinearGradient
@@ -102,6 +106,8 @@ function MainTabs() {
       {TABS.map((tab) => (
         <Tab.Screen key={tab.name} name={tab.name} component={TAB_SCREENS[tab.name]} />
       ))}
+      {/* WebView lives inside the Tab navigator so any tab screen can navigate to it */}
+      <Tab.Screen name="WebView" component={WebViewScreen} />
     </Tab.Navigator>
   );
 }
@@ -114,7 +120,6 @@ export default function App() {
           <Stack.Navigator screenOptions={{ headerShown: false, animation: 'fade' }}>
             <Stack.Screen name="Splash" component={SplashScreen} />
             <Stack.Screen name="Main" component={MainTabs} />
-            <Stack.Screen name="WebView" component={WebViewScreen} options={{ animation: 'slide_from_right' }} />
           </Stack.Navigator>
         </NavigationContainer>
       </SafeAreaProvider>
