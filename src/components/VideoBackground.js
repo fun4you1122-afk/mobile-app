@@ -23,7 +23,7 @@ function VideoPlayer({ uri }) {
   );
 }
 
-export default function VideoBackground({ source }) {
+export default function VideoBackground({ source, lightMode = false }) {
   const [uri, setUri] = useState(null);
 
   useEffect(() => {
@@ -38,7 +38,9 @@ export default function VideoBackground({ source }) {
     <View style={StyleSheet.absoluteFill} pointerEvents="none">
       {uri ? <VideoPlayer uri={uri} /> : null}
       <LinearGradient
-        colors={['rgba(5,8,21,0.4)', 'rgba(5,8,21,0.7)', '#050815']}
+        colors={lightMode
+          ? ['rgba(240,242,248,0.45)', 'rgba(240,242,248,0.75)', '#F0F2F8']
+          : ['rgba(5,8,21,0.4)', 'rgba(5,8,21,0.7)', '#050815']}
         locations={[0, 0.65, 1]}
         style={StyleSheet.absoluteFill}
         pointerEvents="none"

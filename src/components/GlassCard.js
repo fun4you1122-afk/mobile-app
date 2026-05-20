@@ -1,9 +1,12 @@
 import React, { useRef } from 'react';
 import { Animated, Pressable, StyleSheet, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Colors } from '../theme/colors';
+import { useTheme } from '../context/AppContext';
 
-export default function GlassCard({ children, style, onPress, glowColor = Colors.glowBlue }) {
+export default function GlassCard({ children, style, onPress, glowColor }) {
+  const { colors } = useTheme();
+  const resolvedGlowColor = glowColor ?? colors.glowBlue;
+
   const scale = useRef(new Animated.Value(1)).current;
   const glow = useRef(new Animated.Value(0)).current;
 
@@ -23,14 +26,14 @@ export default function GlassCard({ children, style, onPress, glowColor = Colors
 
   const borderColor = glow.interpolate({
     inputRange: [0, 1],
-    outputRange: ['rgba(255,255,255,0.08)', glowColor],
+    outputRange: [colors.border, resolvedGlowColor],
   });
 
   const inner = (
     <Animated.View style={[styles.wrapper, { transform: [{ scale }] }, style]}>
       <Animated.View style={[StyleSheet.absoluteFill, styles.border, { borderColor }]} />
       <LinearGradient
-        colors={['rgba(255,255,255,0.07)', 'rgba(255,255,255,0.02)']}
+        colors={colors.cardGradient}
         style={styles.gradient}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
