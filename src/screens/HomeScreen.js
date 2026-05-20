@@ -48,7 +48,7 @@ function TypewriterText({ text, style, delay = 0 }) {
   return <Animated.Text style={[style, { opacity }]}>{displayed}</Animated.Text>;
 }
 
-function ServiceCard({ item, index }) {
+function ServiceCard({ item, index, navigation }) {
   const anim = useRef(new Animated.Value(0)).current;
   const translateX = useRef(new Animated.Value(index % 2 === 0 ? -60 : 60)).current;
 
@@ -69,7 +69,7 @@ function ServiceCard({ item, index }) {
       width: (width - 48) / 2,
       marginBottom: 12,
     }}>
-      <GlassCard glowColor={item.color + '80'}>
+      <GlassCard glowColor={item.color + '80'} onPress={() => navigation.navigate('Services')}>
         <Text style={{ fontSize: 32, marginBottom: 10 }}>{item.icon}</Text>
         <Text style={[Typography.h4, { color: Colors.textPrimary, marginBottom: 6 }]}>{item.title}</Text>
         <Text style={[Typography.bodySmall, { color: Colors.textSecondary }]}>{item.desc}</Text>
@@ -178,7 +178,7 @@ export default function HomeScreen({ navigation }) {
             Our Services
           </Text>
           <View style={styles.servicesGrid}>
-            {SERVICES.map((item, i) => <ServiceCard key={i} item={item} index={i} />)}
+            {SERVICES.map((item, i) => <ServiceCard key={i} item={item} index={i} navigation={navigation} />)}
           </View>
         </View>
 

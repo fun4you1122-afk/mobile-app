@@ -12,38 +12,43 @@ import ScreenWrapper from '../components/ScreenWrapper';
 const { width } = Dimensions.get('window');
 
 const VALUES = [
-  { icon: '🎯', title: 'Results First', desc: 'Every decision we make is tied to measurable outcomes for your business.' },
-  { icon: '🤝', title: 'True Partnership', desc: 'We become part of your team, not just a vendor you invoice.' },
-  { icon: '🔬', title: 'Innovation Always', desc: 'We stay ahead of technology so your business stays ahead of competition.' },
-  { icon: '🇦🇪', title: 'UAE Focused', desc: 'Deep understanding of the local market, culture, and business landscape.' },
+  { icon: '🎯', title: 'Results First', desc: 'Every decision we make is tied to measurable outcomes for your business.', color: Colors.teal },
+  { icon: '🤝', title: 'True Partnership', desc: 'We become part of your team, not just a vendor you invoice.', color: Colors.blue },
+  { icon: '🔬', title: 'Innovation Always', desc: 'We stay ahead of technology so your business stays ahead of competition.', color: Colors.purple },
+  { icon: '🇦🇪', title: 'UAE Focused', desc: 'Deep understanding of the local market, culture, and business landscape.', color: Colors.teal },
 ];
 
-function ValueCard({ item, index }) {
+function TimelineItem({ item, index, isLast }) {
   const anim = useRef(new Animated.Value(0)).current;
-  const x = useRef(new Animated.Value(index % 2 === 0 ? -40 : 40)).current;
+  const translateX = useRef(new Animated.Value(-40)).current;
 
   useEffect(() => {
     Animated.sequence([
-      Animated.delay(300 + index * 130),
+      Animated.delay(300 + index * 150),
       Animated.parallel([
         Animated.spring(anim, { toValue: 1, tension: 50, friction: 7, useNativeDriver: true }),
-        Animated.spring(x, { toValue: 0, tension: 50, friction: 7, useNativeDriver: true }),
+        Animated.spring(translateX, { toValue: 0, tension: 50, friction: 7, useNativeDriver: true }),
       ]),
     ]).start();
   }, []);
 
   return (
-    <Animated.View style={{
-      opacity: anim,
-      transform: [{ translateX: x }],
-      width: (width - 48) / 2,
-      marginBottom: 12,
-    }}>
-      <GlassCard>
-        <Text style={{ fontSize: 28, marginBottom: 10 }}>{item.icon}</Text>
-        <Text style={[Typography.h4, { color: Colors.textPrimary, marginBottom: 6 }]}>{item.title}</Text>
-        <Text style={[Typography.bodySmall, { color: Colors.textSecondary }]}>{item.desc}</Text>
-      </GlassCard>
+    <Animated.View style={[styles.timelineItem, { opacity: anim, transform: [{ translateX }] }]}>
+      {/* Left: dot + line */}
+      <View style={styles.timelineLeft}>
+        <View style={[styles.timelineDot, { backgroundColor: item.color, shadowColor: item.color }]}>
+          <Text style={{ fontSize: 14 }}>{item.icon}</Text>
+        </View>
+        {!isLast && <View style={[styles.timelineLine, { backgroundColor: item.color + '40' }]} />}
+      </View>
+
+      {/* Right: content */}
+      <View style={styles.timelineRight}>
+        <View style={[styles.timelineCard, { borderLeftColor: item.color + '60' }]}>
+          <Text style={[Typography.h4, { color: Colors.textPrimary, marginBottom: 6 }]}>{item.title}</Text>
+          <Text style={[Typography.bodySmall, { color: Colors.textSecondary, lineHeight: 20 }]}>{item.desc}</Text>
+        </View>
+      </View>
     </Animated.View>
   );
 }
@@ -125,14 +130,21 @@ export default function AboutScreen() {
           </GlassCard>
         </Animated.View>
 
-        {/* Values */}
+        {/* Values - Vertical Timeline */}
         <View style={styles.section}>
           <Text style={styles.sectionLabel}>OUR VALUES</Text>
-          <Text style={[Typography.h2, { color: Colors.textPrimary, marginBottom: 16 }]}>
+          <Text style={[Typography.h2, { color: Colors.textPrimary, marginBottom: 20 }]}>
             What Drives Us
           </Text>
-          <View style={styles.valuesGrid}>
-            {VALUES.map((item, i) => <ValueCard key={i} item={item} index={i} />)}
+          <View style={styles.timeline}>
+            {VALUES.map((item, i) => (
+              <TimelineItem
+                key={i}
+                item={item}
+                index={i}
+                isLast={i === VALUES.length - 1}
+              />
+            ))}
           </View>
         </View>
 
@@ -174,5 +186,47 @@ const styles = StyleSheet.create({
   divider: { height: 2, width: 80, borderRadius: 2, marginTop: 20, opacity: 0.7 },
   section: { marginBottom: 28 },
   sectionLabel: { ...Typography.label, color: Colors.teal, marginBottom: 8 },
-  valuesGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' },
+
+  // Timeline styles
+  timeline: { paddingLeft: 4 },
+  timelineItem: {
+    flexDirection: 'row',
+    marginBottom: 0,
+  },
+  timelineLeft: {
+    alignItems: 'center',
+    width: 52,
+    paddingTop: 4,
+  },
+  timelineDot: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowOpacity: 0.6,
+    shadowRadius: 10,
+    elevation: 6,
+    zIndex: 1,
+  },
+  timelineLine: {
+    width: 2,
+    flex: 1,
+    minHeight: 24,
+    marginTop: 4,
+    marginBottom: 4,
+  },
+  timelineRight: {
+    flex: 1,
+    paddingLeft: 16,
+    paddingBottom: 24,
+  },
+  timelineCard: {
+    backgroundColor: Colors.surface,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    borderLeftWidth: 3,
+    padding: 16,
+  },
 });

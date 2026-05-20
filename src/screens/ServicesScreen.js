@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import {
   View, Text, StyleSheet, Animated, ScrollView, Dimensions, StatusBar,
+  TouchableOpacity,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Colors } from '../theme/colors';
@@ -62,7 +63,7 @@ const SERVICES = [
   },
 ];
 
-function ServiceCard({ item, index }) {
+function ServiceCard({ item, index, navigation }) {
   const anim = useRef(new Animated.Value(0)).current;
   const translateY = useRef(new Animated.Value(50)).current;
 
@@ -109,6 +110,14 @@ function ServiceCard({ item, index }) {
           ))}
         </View>
 
+        <TouchableOpacity
+          style={[styles.quoteBtn, { borderColor: item.color + '80', backgroundColor: item.color + '15' }]}
+          onPress={() => navigation.navigate('Contact')}
+          activeOpacity={0.8}
+        >
+          <Text style={[Typography.button, { color: item.color, fontSize: 14 }]}>Get a Quote →</Text>
+        </TouchableOpacity>
+
         <LinearGradient
           colors={[item.color, 'transparent']}
           style={styles.cardAccent}
@@ -120,7 +129,7 @@ function ServiceCard({ item, index }) {
   );
 }
 
-export default function ServicesScreen() {
+export default function ServicesScreen({ navigation }) {
   const headerAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -145,7 +154,7 @@ export default function ServicesScreen() {
           </Text>
         </Animated.View>
 
-        {SERVICES.map((item, i) => <ServiceCard key={i} item={item} index={i} />)}
+        {SERVICES.map((item, i) => <ServiceCard key={i} item={item} index={i} navigation={navigation} />)}
         <View style={{ height: 120 }} />
       </ScrollView>
       </ScreenWrapper>
@@ -163,5 +172,13 @@ const styles = StyleSheet.create({
   iconBg: { width: 60, height: 60, borderRadius: 16, alignItems: 'center', justifyContent: 'center' },
   featuresRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 4 },
   featureTag: { paddingHorizontal: 12, paddingVertical: 6, borderRadius: 20, borderWidth: 1 },
-  cardAccent: { height: 2, borderRadius: 2, marginTop: 16 },
+  quoteBtn: {
+    marginTop: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 12,
+    borderWidth: 1,
+    alignItems: 'center',
+  },
+  cardAccent: { height: 2, borderRadius: 2, marginTop: 12 },
 });
