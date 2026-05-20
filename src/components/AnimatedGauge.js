@@ -4,8 +4,8 @@ import { Colors } from '../theme/colors';
 import { Typography } from '../theme/typography';
 
 const { width } = Dimensions.get('window');
-const SIZE = (width - 64) / 2 - 8;
-const RADIUS = SIZE / 2 - 10;
+const SIZE = Math.floor((width - 80) / 4);  // 4 gauges per row
+const RADIUS = SIZE / 2 - 6;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
 export default function AnimatedGauge({ value, maxValue, label, color, unit = '', index = 0 }) {
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   valueText: {
-    fontSize: 22,
+    fontSize: 14,
     fontWeight: '800',
     letterSpacing: -0.5,
   },
