@@ -26,21 +26,29 @@ export default function GlassCard({ children, style, onPress, glowColor = Colors
     outputRange: ['rgba(255,255,255,0.08)', glowColor],
   });
 
-  return (
-    <Pressable onPress={onPress} onPressIn={handlePressIn} onPressOut={handlePressOut}>
-      <Animated.View style={[styles.wrapper, { transform: [{ scale }] }, style]}>
-        <Animated.View style={[StyleSheet.absoluteFill, styles.border, { borderColor }]} />
-        <LinearGradient
-          colors={['rgba(255,255,255,0.07)', 'rgba(255,255,255,0.02)']}
-          style={styles.gradient}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-        >
-          {children}
-        </LinearGradient>
-      </Animated.View>
-    </Pressable>
+  const inner = (
+    <Animated.View style={[styles.wrapper, { transform: [{ scale }] }, style]}>
+      <Animated.View style={[StyleSheet.absoluteFill, styles.border, { borderColor }]} />
+      <LinearGradient
+        colors={['rgba(255,255,255,0.07)', 'rgba(255,255,255,0.02)']}
+        style={styles.gradient}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+      >
+        {children}
+      </LinearGradient>
+    </Animated.View>
   );
+
+  if (onPress) {
+    return (
+      <Pressable onPress={onPress} onPressIn={handlePressIn} onPressOut={handlePressOut}>
+        {inner}
+      </Pressable>
+    );
+  }
+
+  return <View>{inner}</View>;
 }
 
 const styles = StyleSheet.create({

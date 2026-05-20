@@ -14,7 +14,7 @@ const TOOLS = [
     desc: 'Ask anything. Get instant AI answers powered by open-source models. Research, write, and think smarter.',
     color: Colors.teal,
     glow: Colors.glowTeal,
-    url: 'https://huggingface.co/chat/',
+    url: 'https://deepai.org/chat',
     badge: 'AI CHAT',
   },
   {

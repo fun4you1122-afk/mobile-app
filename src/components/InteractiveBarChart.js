@@ -62,18 +62,15 @@ function Bar({ x, barW, maxH, baseY, value, maxValue, color, label, isActive, on
           </SvgText>
         )}
 
-        {/* X-axis label — rotated to prevent overlap */}
+        {/* X-axis label — short, horizontal, never overlaps */}
         <SvgText
           x={barW / 2}
-          y={baseY + 6}
+          y={baseY + 14}
           fontSize={8}
-          fill="rgba(255,255,255,0.5)"
-          textAnchor="end"
-          rotation="-35"
-          originX={barW / 2}
-          originY={baseY + 6}
+          fill="rgba(255,255,255,0.55)"
+          textAnchor="middle"
         >
-          {label.length > 6 ? label.slice(0, 6) : label}
+          {label.slice(0, 4)}
         </SvgText>
       </Svg>
     </TouchableOpacity>

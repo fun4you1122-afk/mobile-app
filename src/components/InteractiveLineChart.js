@@ -156,7 +156,7 @@ export default function InteractiveLineChart({
                 textAnchor="middle"
                 fontWeight="700"
               >
-                {data[activeIndex]} {unit}
+                {data[activeIndex]}
               </SvgText>
             </>
           )}
