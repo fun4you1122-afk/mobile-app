@@ -3,22 +3,16 @@ import {
   View, Text, StyleSheet, Animated, ScrollView, Dimensions, StatusBar, Image,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Colors } from '../theme/colors';
 import { Typography } from '../theme/typography';
 import GlassCard from '../components/GlassCard';
 import VideoBackground from '../components/VideoBackground';
 import ScreenWrapper from '../components/ScreenWrapper';
+import { useTheme } from '../context/AppContext';
 
 const { width } = Dimensions.get('window');
 
-const VALUES = [
-  { icon: '🎯', title: 'Results First', desc: 'Every decision we make is tied to measurable outcomes for your business.', color: Colors.teal },
-  { icon: '🤝', title: 'True Partnership', desc: 'We become part of your team, not just a vendor you invoice.', color: Colors.blue },
-  { icon: '🔬', title: 'Innovation Always', desc: 'We stay ahead of technology so your business stays ahead of competition.', color: Colors.purple },
-  { icon: '🇦🇪', title: 'UAE Focused', desc: 'Deep understanding of the local market, culture, and business landscape.', color: Colors.teal },
-];
-
 function TimelineItem({ item, index, isLast }) {
+  const { colors } = useTheme();
   const anim = useRef(new Animated.Value(0)).current;
   const translateX = useRef(new Animated.Value(-40)).current;
 
@@ -44,9 +38,9 @@ function TimelineItem({ item, index, isLast }) {
 
       {/* Right: content */}
       <View style={styles.timelineRight}>
-        <View style={[styles.timelineCard, { borderLeftColor: item.color + '60' }]}>
-          <Text style={[Typography.h4, { color: Colors.textPrimary, marginBottom: 6 }]}>{item.title}</Text>
-          <Text style={[Typography.bodySmall, { color: Colors.textSecondary, lineHeight: 20 }]}>{item.desc}</Text>
+        <View style={[styles.timelineCard, { backgroundColor: colors.surface, borderColor: colors.border, borderLeftColor: item.color + '60' }]}>
+          <Text style={[Typography.h4, { color: colors.textPrimary, marginBottom: 6 }]}>{item.title}</Text>
+          <Text style={[Typography.bodySmall, { color: colors.textSecondary, lineHeight: 20 }]}>{item.desc}</Text>
         </View>
       </View>
     </Animated.View>
@@ -54,9 +48,17 @@ function TimelineItem({ item, index, isLast }) {
 }
 
 export default function AboutScreen() {
+  const { colors, isDark } = useTheme();
   const headerAnim = useRef(new Animated.Value(0)).current;
   const logoAnim = useRef(new Animated.Value(0)).current;
   const logoFloat = useRef(new Animated.Value(0)).current;
+
+  const VALUES = [
+    { icon: '🎯', title: 'Results First', desc: 'Every decision we make is tied to measurable outcomes for your business.', color: colors.teal },
+    { icon: '🤝', title: 'True Partnership', desc: 'We become part of your team, not just a vendor you invoice.', color: colors.blue },
+    { icon: '🔬', title: 'Innovation Always', desc: 'We stay ahead of technology so your business stays ahead of competition.', color: colors.purple },
+    { icon: '🇦🇪', title: 'UAE Focused', desc: 'Deep understanding of the local market, culture, and business landscape.', color: colors.teal },
+  ];
 
   useEffect(() => {
     Animated.stagger(200, [
@@ -73,9 +75,9 @@ export default function AboutScreen() {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
-      <VideoBackground source={require('../../assets/videos/about.mp4')} />
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <StatusBar barStyle={colors.statusBarStyle} backgroundColor="transparent" translucent />
+      <VideoBackground source={require('../../assets/videos/about.mp4')} lightMode={!isDark} />
 
       <ScreenWrapper style={{ flex: 1 }}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
@@ -86,7 +88,7 @@ export default function AboutScreen() {
           transform: [{ scale: logoAnim.interpolate({ inputRange: [0, 1], outputRange: [0.8, 1] }) }],
         }]}>
           <Animated.View style={{ transform: [{ translateY: logoFloat }], alignItems: 'center' }}>
-            <View style={styles.logoGlow}>
+            <View style={[styles.logoGlow, { shadowColor: colors.teal }]}>
               <Image
                 source={require('../../assets/images/logo.png')}
                 style={styles.logo}
@@ -95,8 +97,8 @@ export default function AboutScreen() {
             </View>
           </Animated.View>
 
-          <Text style={styles.brandName}>WETHINK</Text>
-          <Text style={[Typography.body, { color: Colors.textSecondary, textAlign: 'center', marginTop: 8, paddingHorizontal: 20 }]}>
+          <Text style={[styles.brandName, { color: colors.textPrimary }]}>WETHINK</Text>
+          <Text style={[Typography.body, { color: colors.textSecondary, textAlign: 'center', marginTop: 8, paddingHorizontal: 20 }]}>
             We think big. You achieve bigger.
           </Text>
 
@@ -113,16 +115,16 @@ export default function AboutScreen() {
           opacity: headerAnim,
           transform: [{ translateY: headerAnim.interpolate({ inputRange: [0, 1], outputRange: [20, 0] }) }],
         }]}>
-          <Text style={styles.sectionLabel}>OUR STORY</Text>
-          <GlassCard glowColor={Colors.glowTeal}>
-            <Text style={[Typography.h3, { color: Colors.textPrimary, marginBottom: 12 }]}>
+          <Text style={[styles.sectionLabel, { color: colors.teal }]}>OUR STORY</Text>
+          <GlassCard glowColor={colors.glowTeal}>
+            <Text style={[Typography.h3, { color: colors.textPrimary, marginBottom: 12 }]}>
               Building Future-Ready Businesses from the UAE
             </Text>
-            <Text style={[Typography.body, { color: Colors.textSecondary, lineHeight: 26 }]}>
+            <Text style={[Typography.body, { color: colors.textSecondary, lineHeight: 26 }]}>
               WeThink was founded with a single belief: that businesses in the UAE deserve world-class digital
               experiences built by people who understand the local market.
             </Text>
-            <Text style={[Typography.body, { color: Colors.textSecondary, lineHeight: 26, marginTop: 12 }]}>
+            <Text style={[Typography.body, { color: colors.textSecondary, lineHeight: 26, marginTop: 12 }]}>
               We're not just developers or consultants — we're digital architects who turn ambitious ideas
               into scalable, revenue-generating digital products. Every client we partner with gets our
               full commitment: strategy, design, development, and growth.
@@ -132,8 +134,8 @@ export default function AboutScreen() {
 
         {/* Values - Vertical Timeline */}
         <View style={styles.section}>
-          <Text style={styles.sectionLabel}>OUR VALUES</Text>
-          <Text style={[Typography.h2, { color: Colors.textPrimary, marginBottom: 20 }]}>
+          <Text style={[styles.sectionLabel, { color: colors.teal }]}>OUR VALUES</Text>
+          <Text style={[Typography.h2, { color: colors.textPrimary, marginBottom: 20 }]}>
             What Drives Us
           </Text>
           <View style={styles.timeline}>
@@ -150,12 +152,12 @@ export default function AboutScreen() {
 
         {/* UAE badge */}
         <View style={[styles.section, { marginBottom: 20 }]}>
-          <GlassCard glowColor={Colors.glowPurple}>
+          <GlassCard glowColor={colors.glowPurple}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Text style={{ fontSize: 40 }}>🇦🇪</Text>
               <View style={{ flex: 1, marginLeft: 16 }}>
-                <Text style={[Typography.h4, { color: Colors.textPrimary }]}>Proudly UAE-Based</Text>
-                <Text style={[Typography.bodySmall, { color: Colors.textSecondary, marginTop: 4 }]}>
+                <Text style={[Typography.h4, { color: colors.textPrimary }]}>Proudly UAE-Based</Text>
+                <Text style={[Typography.bodySmall, { color: colors.textSecondary, marginTop: 4 }]}>
                   Serving businesses across Dubai, Abu Dhabi, and the wider Gulf region with excellence.
                 </Text>
               </View>
@@ -171,21 +173,20 @@ export default function AboutScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: Colors.background },
+  container: { flex: 1 },
   content: { paddingHorizontal: 16, paddingTop: 70, paddingBottom: 20 },
   heroSection: { alignItems: 'center', paddingVertical: 30 },
   logoGlow: {
-    shadowColor: Colors.teal,
     shadowOpacity: 0.5,
     shadowRadius: 30,
     elevation: 15,
     marginBottom: 16,
   },
   logo: { width: 90, height: 90 },
-  brandName: { ...Typography.h1, color: Colors.textPrimary, letterSpacing: 8 },
+  brandName: { ...Typography.h1, letterSpacing: 8 },
   divider: { height: 2, width: 80, borderRadius: 2, marginTop: 20, opacity: 0.7 },
   section: { marginBottom: 28 },
-  sectionLabel: { ...Typography.label, color: Colors.teal, marginBottom: 8 },
+  sectionLabel: { ...Typography.label, marginBottom: 8 },
 
   // Timeline styles
   timeline: { paddingLeft: 4 },
@@ -222,10 +223,8 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
   },
   timelineCard: {
-    backgroundColor: Colors.surface,
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: Colors.border,
     borderLeftWidth: 3,
     padding: 16,
   },

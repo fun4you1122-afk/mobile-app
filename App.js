@@ -15,19 +15,21 @@ import PortfolioScreen from './src/screens/PortfolioScreen';
 import AboutScreen from './src/screens/AboutScreen';
 import ContactScreen from './src/screens/ContactScreen';
 import ToolsScreen from './src/screens/ToolsScreen';
+import SettingsScreen from './src/screens/SettingsScreen';
 import WebViewScreen from './src/screens/WebViewScreen';
-import { Colors } from './src/theme/colors';
+import { AppProvider, useTheme } from './src/context/AppContext';
 import { Typography } from './src/theme/typography';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const TABS = [
-  { name: 'Home',      icon: '🏠' },
-  { name: 'Services',  icon: '⚡' },
-  { name: 'Portfolio', icon: '🎨' },
-  { name: 'Tools',     icon: '🤖' },
-  { name: 'Contact',   icon: '📞' },
+  { name: 'Home',      key: 'home',      icon: '🏠' },
+  { name: 'Services',  key: 'services',  icon: '⚡' },
+  { name: 'Portfolio', key: 'portfolio', icon: '🎨' },
+  { name: 'Tools',     key: 'tools',     icon: '🤖' },
+  { name: 'Contact',   key: 'contact',   icon: '📞' },
+  { name: 'Settings',  key: 'settings',  icon: '⚙️' },
 ];
 
 const TAB_SCREENS = {
@@ -36,19 +38,20 @@ const TAB_SCREENS = {
   Portfolio: PortfolioScreen,
   Tools: ToolsScreen,
   Contact: ContactScreen,
+  Settings: SettingsScreen,
 };
 
 function CustomTabBar({ state, navigation }) {
   const insets = useSafeAreaInsets();
+  const { colors, t } = useTheme();
 
-  // Hide tab bar when on the WebView screen
   const currentRoute = state.routes[state.index]?.name;
   if (currentRoute === 'WebView') return null;
 
   return (
     <View style={[styles.tabBarOuter, { paddingBottom: Math.max(insets.bottom, 14) }]}>
       <LinearGradient
-        colors={['rgba(5,8,21,0)', 'rgba(5,8,21,0.97)']}
+        colors={colors.tabBarGradient}
         style={StyleSheet.absoluteFill}
         pointerEvents="none"
       />
@@ -70,11 +73,11 @@ function CustomTabBar({ state, navigation }) {
                   end={{ x: 1, y: 1 }}
                 />
               )}
-              <Text style={{ fontSize: 18 }}>{tab.icon}</Text>
-              <Text style={[styles.tabLabel, { color: isFocused ? Colors.teal : Colors.textMuted }]}>
-                {tab.name}
+              <Text style={{ fontSize: 16 }}>{tab.icon}</Text>
+              <Text style={[styles.tabLabel, { color: isFocused ? colors.teal : colors.textMuted }]}>
+                {t(tab.key)}
               </Text>
-              {isFocused && <View style={styles.activeDot} />}
+              {isFocused && <View style={[styles.activeDot, { backgroundColor: colors.teal }]} />}
             </TouchableOpacity>
           );
         })}
@@ -92,7 +95,6 @@ function MainTabs() {
       {TABS.map((tab) => (
         <Tab.Screen key={tab.name} name={tab.name} component={TAB_SCREENS[tab.name]} />
       ))}
-      {/* WebView lives inside the Tab navigator so any tab screen can navigate to it */}
       <Tab.Screen name="WebView" component={WebViewScreen} />
     </Tab.Navigator>
   );
@@ -102,12 +104,14 @@ export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
-        <NavigationContainer>
-          <Stack.Navigator screenOptions={{ headerShown: false, animation: 'fade' }}>
-            <Stack.Screen name="Splash" component={SplashScreen} />
-            <Stack.Screen name="Main" component={MainTabs} />
-          </Stack.Navigator>
-        </NavigationContainer>
+        <AppProvider>
+          <NavigationContainer>
+            <Stack.Navigator screenOptions={{ headerShown: false, animation: 'fade' }}>
+              <Stack.Screen name="Splash" component={SplashScreen} />
+              <Stack.Screen name="Main" component={MainTabs} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </AppProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );
@@ -122,7 +126,7 @@ const styles = StyleSheet.create({
   tabBarInner: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    paddingHorizontal: 6,
+    paddingHorizontal: 4,
     height: 64,
     alignItems: 'center',
   },
@@ -133,18 +137,17 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     overflow: 'hidden',
     position: 'relative',
-    marginHorizontal: 2,
+    marginHorizontal: 1,
   },
   tabLabel: {
-    fontSize: 9,
+    fontSize: 8,
     fontWeight: '600',
-    letterSpacing: 0.5,
-    marginTop: 3,
+    letterSpacing: 0.3,
+    marginTop: 2,
     textTransform: 'uppercase',
   },
   activeDot: {
     width: 4, height: 4, borderRadius: 2,
-    backgroundColor: Colors.teal,
-    marginTop: 3,
+    marginTop: 2,
   },
 });
