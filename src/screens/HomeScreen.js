@@ -10,6 +10,8 @@ import GlassCard from '../components/GlassCard';
 import AnimatedGauge from '../components/AnimatedGauge';
 import VideoBackground from '../components/VideoBackground';
 import ScreenWrapper from '../components/ScreenWrapper';
+import InteractiveLineChart from '../components/InteractiveLineChart';
+import InteractiveBarChart from '../components/InteractiveBarChart';
 
 const { width, height } = Dimensions.get('window');
 
@@ -182,6 +184,35 @@ export default function HomeScreen({ navigation }) {
           </View>
         </View>
 
+        {/* Interactive Charts */}
+        <View style={styles.section}>
+          <Text style={styles.sectionLabel}>GROWTH & PERFORMANCE</Text>
+          <Text style={[Typography.h2, { color: Colors.textPrimary, marginBottom: 6 }]}>Live Insights</Text>
+          <Text style={[Typography.bodySmall, { color: Colors.textSecondary, marginBottom: 16 }]}>
+            Drag the line chart · Tap bars to reveal data
+          </Text>
+          <View style={styles.chartCard}>
+            <InteractiveLineChart
+              data={[8, 12, 10, 18, 22, 19, 28, 33, 31, 38, 44, 50]}
+              label="Client Acquisitions — 2024"
+              color={Colors.teal}
+              unit="clients"
+            />
+          </View>
+          <View style={[styles.chartCard, { marginTop: 16 }]}>
+            <InteractiveBarChart
+              label="Service Revenue Mix"
+              data={[
+                { label: 'Web', value: 35, color: Colors.teal },
+                { label: 'Mobile', value: 28, color: Colors.blue },
+                { label: 'Consult', value: 20, color: Colors.purple },
+                { label: 'Brand', value: 10, color: Colors.teal },
+                { label: 'Mktg', value: 7, color: Colors.blue },
+              ]}
+            />
+          </View>
+        </View>
+
         {/* Contact CTA */}
         <View style={[styles.section, { marginBottom: 8 }]}>
           <GlassCard glowColor={Colors.glowTeal} onPress={() => navigation.navigate('Contact')}>
@@ -221,7 +252,7 @@ const styles = StyleSheet.create({
     elevation: 15,
     marginBottom: 20,
   },
-  heroLogo: { width: 100, height: 100 },
+  heroLogo: { width: 300, height: 300 },
   heroTitle: {
     ...Typography.h1,
     color: Colors.textPrimary,
@@ -270,4 +301,11 @@ const styles = StyleSheet.create({
   servicesGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' },
   cardAccent: { height: 2, borderRadius: 2, marginTop: 12 },
   ctaBanner: { flexDirection: 'row', alignItems: 'center' },
+  chartCard: {
+    backgroundColor: Colors.surface,
+    borderRadius: 20,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: Colors.border,
+  },
 });
