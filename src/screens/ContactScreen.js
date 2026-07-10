@@ -9,6 +9,7 @@ import GlassCard from '../components/GlassCard';
 import PulseRing from '../components/PulseRing';
 import VideoBackground from '../components/VideoBackground';
 import ScreenWrapper from '../components/ScreenWrapper';
+import Icon from '../components/Icons';
 import { useTheme } from '../context/AppContext';
 
 const PHONE = '0503125078';
@@ -34,14 +35,14 @@ function ContactButton({ item, index }) {
       <GlassCard onPress={item.action} glowColor={item.glow}>
         <View style={styles.contactRow}>
           <PulseRing color={item.glow} size={48}>
-            <Text style={{ fontSize: 20 }}>{item.icon}</Text>
+            <Icon name={item.icon} size={22} color={item.color} strokeWidth={1.8} />
           </PulseRing>
           <View style={styles.contactInfo}>
             <Text style={[Typography.label, { color: item.color }]}>{item.label}</Text>
             <Text style={[Typography.body, { color: colors.textPrimary, marginTop: 2 }]}>{item.value}</Text>
           </View>
           <View style={[styles.arrowButton, { backgroundColor: item.color + '25', borderColor: item.color + '50' }]}>
-            <Text style={{ color: item.color, fontSize: 14 }}>→</Text>
+            <Icon name="arrowRight" size={15} color={item.color} strokeWidth={2} />
           </View>
         </View>
       </GlassCard>
@@ -63,12 +64,12 @@ export default function ContactScreen() {
   const successOpacity = useRef(new Animated.Value(0)).current;
 
   const CONTACT_METHODS = [
-    { icon: '💬', label: t('contactWhatsapp'), value: PHONE, color: '#25D366', glow: 'rgba(37,211,102,0.4)', action: () => Linking.openURL(`https://wa.me/${WHATSAPP_NUMBER}`) },
-    { icon: '📞', label: t('contactCall'), value: PHONE, color: colors.blue, glow: colors.glowBlue, action: () => Linking.openURL(`tel:${PHONE}`) },
-    { icon: '📧', label: t('contactEmail'), value: 'Info@wethink.ae', color: colors.teal, glow: colors.glowTeal, action: () => Linking.openURL('mailto:Info@wethink.ae') },
-    { icon: '🌐', label: t('contactWebsite'), value: 'www.wethink.ae', color: colors.purple, glow: colors.glowPurple, action: () => Linking.openURL('https://www.wethink.ae') },
-    { icon: '📸', label: t('contactInstagram'), value: '@wethink.ae', color: '#E1306C', glow: 'rgba(225,48,108,0.4)', action: () => Linking.openURL('https://www.instagram.com/wethink.ae') },
-    { icon: '💼', label: t('contactLinkedIn'), value: 'Rasha Aljalam', color: '#0A66C2', glow: 'rgba(10,102,194,0.4)', action: () => Linking.openURL('https://www.linkedin.com/in/rasha-aljalam') },
+    { icon: 'messageCircle', label: t('contactWhatsapp'), value: PHONE, color: '#25D366', glow: 'rgba(37,211,102,0.4)', action: () => Linking.openURL(`https://wa.me/${WHATSAPP_NUMBER}`) },
+    { icon: 'phone', label: t('contactCall'), value: PHONE, color: colors.blue, glow: colors.glowBlue, action: () => Linking.openURL(`tel:${PHONE}`) },
+    { icon: 'mail', label: t('contactEmail'), value: 'Info@wethink.ae', color: colors.teal, glow: colors.glowTeal, action: () => Linking.openURL('mailto:Info@wethink.ae') },
+    { icon: 'globe', label: t('contactWebsite'), value: 'www.wethink.ae', color: colors.purple, glow: colors.glowPurple, action: () => Linking.openURL('https://www.wethink.ae') },
+    { icon: 'camera', label: t('contactInstagram'), value: '@wethink.ae', color: '#E1306C', glow: 'rgba(225,48,108,0.4)', action: () => Linking.openURL('https://www.instagram.com/wethink.ae') },
+    { icon: 'briefcase', label: t('contactLinkedIn'), value: 'Rasha Aljalam', color: '#0A66C2', glow: 'rgba(10,102,194,0.4)', action: () => Linking.openURL('https://www.linkedin.com/in/rasha-aljalam') },
   ];
 
   useEffect(() => {
@@ -151,7 +152,7 @@ export default function ContactScreen() {
                   onPress={() => Linking.openURL('https://www.linkedin.com/in/rasha-aljalam')}
                   activeOpacity={0.8}
                 >
-                  <Text style={{ fontSize: 12 }}>💼</Text>
+                  <Icon name="briefcase" size={12} color="#0A66C2" strokeWidth={2} />
                   <Text style={[Typography.label, { color: '#0A66C2', fontSize: 9, marginLeft: 4 }]}>{t('ceoLinkedIn')}</Text>
                 </TouchableOpacity>
               </View>
@@ -159,7 +160,7 @@ export default function ContactScreen() {
 
             {/* Address */}
             <View style={[styles.addressRow, { borderTopColor: colors.border }]}>
-              <Text style={{ fontSize: 16 }}>📍</Text>
+              <Icon name="pin" size={16} color={colors.teal} strokeWidth={1.8} />
               <Text style={[Typography.bodySmall, { color: colors.textSecondary, marginLeft: 10, flex: 1 }]}>
                 {t('addressLine')}
               </Text>
@@ -183,7 +184,7 @@ export default function ContactScreen() {
 
           {submitted ? (
             <Animated.View style={[styles.successBox, { opacity: successOpacity, transform: [{ scale: successScale }] }]}>
-              <Text style={{ fontSize: 48 }}>✅</Text>
+              <Icon name="check" size={52} gradient={['#00D4AA', '#3B5BDB']} strokeWidth={2.2} />
               <Text style={[Typography.h3, { color: colors.textPrimary, marginTop: 16, textAlign: 'center' }]}>
                 {t('messageSent')}
               </Text>

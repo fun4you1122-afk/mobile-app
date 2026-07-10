@@ -5,11 +5,15 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { Typography } from '../theme/typography';
 import { useTheme } from '../context/AppContext';
+import Icon from '../components/Icons';
+import AIOrb from '../components/AIOrb';
+import NeuralBackground from '../components/NeuralBackground';
 
 function ToolCard({ item, index, navigation }) {
   const { colors, t } = useTheme();
   const anim = useRef(new Animated.Value(0)).current;
   const translateY = useRef(new Animated.Value(40)).current;
+  const livePulse = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     Animated.sequence([
@@ -19,6 +23,13 @@ function ToolCard({ item, index, navigation }) {
         Animated.spring(translateY, { toValue: 0, tension: 50, friction: 7, useNativeDriver: true }),
       ]),
     ]).start();
+
+    const loop = Animated.loop(Animated.sequence([
+      Animated.timing(livePulse, { toValue: 1, duration: 900, useNativeDriver: true, isInteraction: false }),
+      Animated.timing(livePulse, { toValue: 0, duration: 900, useNativeDriver: true, isInteraction: false }),
+    ]));
+    loop.start();
+    return () => loop.stop();
   }, []);
 
   return (
@@ -42,11 +53,18 @@ function ToolCard({ item, index, navigation }) {
               colors={[item.color + '30', item.color + '10']}
               style={[styles.iconBubble, { shadowColor: item.color }]}
             >
-              <Text style={{ fontSize: 32 }}>{item.icon}</Text>
+              <Icon name={item.icon} size={32} color={item.color} strokeWidth={1.6} />
             </LinearGradient>
 
             <View style={styles.cardMeta}>
-              <View style={[styles.badge, { backgroundColor: item.color + '20', borderColor: item.color + '50' }]}>
+              <View style={[styles.badge, { backgroundColor: item.color + '20', borderColor: item.color + '50', flexDirection: 'row', alignItems: 'center' }]}>
+                <Animated.View style={{
+                  width: 5, height: 5, borderRadius: 2.5,
+                  backgroundColor: item.color,
+                  marginRight: 5,
+                  opacity: livePulse.interpolate({ inputRange: [0, 1], outputRange: [0.35, 1] }),
+                  transform: [{ scale: livePulse.interpolate({ inputRange: [0, 1], outputRange: [0.85, 1.25] }) }],
+                }} />
                 <Text style={[Typography.label, { color: item.color, fontSize: 9 }]}>{item.badge}</Text>
               </View>
               <Text style={[Typography.h3, { color: colors.textPrimary, marginTop: 6 }]}>{item.name}</Text>
@@ -65,7 +83,7 @@ function ToolCard({ item, index, navigation }) {
               colors={[item.color + '30', item.color + '10']}
               style={styles.launchArrow}
             >
-              <Text style={{ color: item.color, fontSize: 16 }}>→</Text>
+              <Icon name="arrowRight" size={16} color={item.color} strokeWidth={2} />
             </LinearGradient>
           </View>
         </View>
@@ -79,10 +97,10 @@ export default function ToolsScreen({ navigation }) {
   const headerAnim = useRef(new Animated.Value(0)).current;
 
   const TOOLS = [
-    { icon: '🤖', name: t('tool1Name'), tagline: t('tool1Tagline'), desc: t('tool1Desc'), color: colors.teal, glow: colors.glowTeal, url: 'https://deepai.org/chat', badge: t('tool1Badge') },
-    { icon: '💡', name: t('tool2Name'), tagline: t('tool2Tagline'), desc: t('tool2Desc'), color: colors.purple, glow: colors.glowPurple, url: 'https://you.com/search?fromSearchBar=true&tbm=youchat', badge: t('tool2Badge') },
-    { icon: '📊', name: t('tool3Name'), tagline: t('tool3Tagline'), desc: t('tool3Desc'), color: colors.blue, glow: colors.glowBlue, url: 'https://app.hubspot.com/login', badge: t('tool3Badge') },
-    { icon: '📋', name: t('tool4Name'), tagline: t('tool4Tagline'), desc: t('tool4Desc'), color: colors.teal, glow: colors.glowTeal, url: 'https://www.refrens.com/en-ae/free-online-quotation-generator', badge: t('tool4Badge') },
+    { icon: 'cpu', name: t('tool1Name'), tagline: t('tool1Tagline'), desc: t('tool1Desc'), color: colors.teal, glow: colors.glowTeal, url: 'https://deepai.org/chat', badge: t('tool1Badge') },
+    { icon: 'search', name: t('tool2Name'), tagline: t('tool2Tagline'), desc: t('tool2Desc'), color: colors.purple, glow: colors.glowPurple, url: 'https://you.com/search?fromSearchBar=true&tbm=youchat', badge: t('tool2Badge') },
+    { icon: 'database', name: t('tool3Name'), tagline: t('tool3Tagline'), desc: t('tool3Desc'), color: colors.blue, glow: colors.glowBlue, url: 'https://app.hubspot.com/login', badge: t('tool3Badge') },
+    { icon: 'fileText', name: t('tool4Name'), tagline: t('tool4Tagline'), desc: t('tool4Desc'), color: colors.teal, glow: colors.glowTeal, url: 'https://www.refrens.com/en-ae/free-online-quotation-generator', badge: t('tool4Badge') },
   ];
 
   useEffect(() => {
@@ -100,15 +118,20 @@ export default function ToolsScreen({ navigation }) {
         colors={bgColors}
         style={StyleSheet.absoluteFill}
       />
+      <NeuralBackground height={420} opacity={isDark ? 0.5 : 0.3} />
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
         <Animated.View style={[styles.header, {
           opacity: headerAnim,
           transform: [{ translateY: headerAnim.interpolate({ inputRange: [0, 1], outputRange: [-20, 0] }) }],
         }]}>
-          <Text style={[styles.sectionLabel, { color: colors.teal }]}>{t('poweredBy')}</Text>
-          <Text style={[Typography.h1, { color: colors.textPrimary }]}>{t('toolsTitle')}</Text>
-          <Text style={[Typography.body, { color: colors.textSecondary, marginTop: 8, lineHeight: 26 }]}>
+          {/* AI core */}
+          <View style={{ alignItems: 'center', marginBottom: 10 }}>
+            <AIOrb size={150} coreScale={0.32} />
+          </View>
+          <Text style={[styles.sectionLabel, { color: colors.teal, textAlign: 'center' }]}>{t('poweredBy')}</Text>
+          <Text style={[Typography.h1, { color: colors.textPrimary, textAlign: 'center' }]}>{t('toolsTitle')}</Text>
+          <Text style={[Typography.body, { color: colors.textSecondary, marginTop: 8, lineHeight: 26, textAlign: 'center' }]}>
             {t('toolsSub')}
           </Text>
         </Animated.View>

@@ -5,6 +5,9 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { Colors, Gradients } from '../theme/colors';
 import { Typography } from '../theme/typography';
+import AIOrb from '../components/AIOrb';
+import GradientText from '../components/GradientText';
+import NeuralBackground from '../components/NeuralBackground';
 
 const { width, height } = Dimensions.get('window');
 
@@ -66,6 +69,12 @@ export default function SplashScreen({ navigation }) {
     <Animated.View style={[styles.container, { opacity: screenOpacity }]}>
       <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
       <LinearGradient colors={['#050815', '#080d1c', '#050815']} style={StyleSheet.absoluteFill} />
+      <NeuralBackground height={height} opacity={0.35} />
+
+      {/* AI core behind the logo */}
+      <View style={styles.orbWrap} pointerEvents="none">
+        <AIOrb size={280} coreScale={0.3} />
+      </View>
 
       {/* Animated glow rings */}
       <Animated.View style={[styles.ring, {
@@ -104,7 +113,7 @@ export default function SplashScreen({ navigation }) {
         alignItems: 'center',
         marginTop: 32,
       }}>
-        <Text style={styles.tagline}>WETHINK</Text>
+        <GradientText style={styles.tagline}>WETHINK</GradientText>
         <Animated.View style={{ opacity: subtitleOpacity }}>
           <Text style={styles.subtitle}>We think big. You achieve bigger.</Text>
           <View style={styles.divider} />
@@ -156,5 +165,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     borderRadius: 999,
     borderWidth: 1,
+  },
+  orbWrap: {
+    position: 'absolute',
+    top: height / 2 - 210,
+    alignSelf: 'center',
   },
 });

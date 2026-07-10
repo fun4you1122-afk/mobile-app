@@ -12,6 +12,9 @@ import ScreenWrapper from '../components/ScreenWrapper';
 import InteractiveLineChart from '../components/InteractiveLineChart';
 import InteractiveBarChart from '../components/InteractiveBarChart';
 import Marquee from '../components/Marquee';
+import Icon from '../components/Icons';
+import GradientText from '../components/GradientText';
+import NeuralBackground from '../components/NeuralBackground';
 import { useTheme } from '../context/AppContext';
 
 const { width } = Dimensions.get('window');
@@ -73,9 +76,9 @@ function ServiceCard({ item, index, navigation }) {
           style={StyleSheet.absoluteFill}
           borderRadius={18}
         />
-        <Animated.Text style={{ fontSize: 38, transform: [{ translateY: floatY }] }}>
-          {item.icon}
-        </Animated.Text>
+        <Animated.View style={{ transform: [{ translateY: floatY }], alignSelf: 'flex-start' }}>
+          <Icon name={item.icon} size={36} color={item.color} strokeWidth={1.6} />
+        </Animated.View>
         <Text style={[Typography.h4, { color: colors.textPrimary, marginTop: 14, marginBottom: 8 }]}>
           {item.title}
         </Text>
@@ -83,7 +86,7 @@ function ServiceCard({ item, index, navigation }) {
           {item.desc}
         </Text>
         <View style={[styles.serviceArrow, { backgroundColor: item.color + '25', borderColor: item.color + '50' }]}>
-          <Text style={{ color: item.color, fontSize: 14 }}>→</Text>
+          <Icon name="arrowRight" size={14} color={item.color} strokeWidth={2} />
         </View>
         <LinearGradient
           colors={[item.color, 'transparent']}
@@ -137,7 +140,7 @@ function WorkCard({ item, index, navigation }) {
         <Animated.View style={[StyleSheet.absoluteFill, { borderRadius: 18, backgroundColor: '#fff', opacity: shimmerOpacity }]} />
 
         <View style={[styles.workIconBg, { backgroundColor: item.color + '30' }]}>
-          <Text style={{ fontSize: 28 }}>{item.icon}</Text>
+          <Icon name={item.icon} size={26} color={item.color} strokeWidth={1.7} />
         </View>
         <View style={[styles.workCatBadge, { backgroundColor: item.color + '20', borderColor: item.color + '50' }]}>
           <Text style={[Typography.label, { color: item.color, fontSize: 9 }]}>{item.cat}</Text>
@@ -163,20 +166,20 @@ export default function HomeScreen({ navigation }) {
   const scrollY = useRef(new Animated.Value(0)).current;
 
   const SERVICES = [
-    { icon: '🌐', title: t('svcWebTitle'), desc: t('svcWebDesc'), color: colors.teal },
-    { icon: '💡', title: t('svcItTitle'), desc: t('svcItDesc'), color: colors.blue },
-    { icon: '📱', title: t('svcMobileTitle'), desc: t('svcMobileDesc'), color: colors.purple },
-    { icon: '🚀', title: t('svcDigitalTitle'), desc: t('svcDigitalDesc'), color: colors.teal },
-    { icon: '🎨', title: t('svcBrandTitle'), desc: t('svcBrandDesc'), color: colors.blue },
-    { icon: '📊', title: t('svcMarketingTitle'), desc: t('svcMarketingDesc'), color: colors.purple },
+    { icon: 'globe', title: t('svcWebTitle'), desc: t('svcWebDesc'), color: colors.teal },
+    { icon: 'lightbulb', title: t('svcItTitle'), desc: t('svcItDesc'), color: colors.blue },
+    { icon: 'smartphone', title: t('svcMobileTitle'), desc: t('svcMobileDesc'), color: colors.purple },
+    { icon: 'rocket', title: t('svcDigitalTitle'), desc: t('svcDigitalDesc'), color: colors.teal },
+    { icon: 'palette', title: t('svcBrandTitle'), desc: t('svcBrandDesc'), color: colors.blue },
+    { icon: 'chart', title: t('svcMarketingTitle'), desc: t('svcMarketingDesc'), color: colors.purple },
   ];
 
   const RECENT_WORK = [
-    { title: t('work1Title'), cat: t('catWeb'), icon: '🌐', color: colors.teal },
-    { title: t('work2Title'), cat: t('catMobile'), icon: '📱', color: colors.blue },
-    { title: t('work3Title'), cat: t('catBranding'), icon: '🎨', color: colors.purple },
-    { title: t('work4Title'), cat: t('catConsulting'), icon: '☁️', color: colors.teal },
-    { title: t('work5Title'), cat: t('catWeb'), icon: '🏢', color: colors.blue },
+    { title: t('work1Title'), cat: t('catWeb'), icon: 'globe', color: colors.teal },
+    { title: t('work2Title'), cat: t('catMobile'), icon: 'cart', color: colors.blue },
+    { title: t('work3Title'), cat: t('catBranding'), icon: 'palette', color: colors.purple },
+    { title: t('work4Title'), cat: t('catConsulting'), icon: 'cloud', color: colors.teal },
+    { title: t('work5Title'), cat: t('catWeb'), icon: 'building', color: colors.blue },
   ];
 
   const GAUGES = [
@@ -207,6 +210,7 @@ export default function HomeScreen({ navigation }) {
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <StatusBar barStyle={colors.statusBarStyle} backgroundColor="transparent" translucent />
       <VideoBackground source={require('../../assets/videos/home.mp4')} lightMode={!isDark} />
+      <NeuralBackground height={460} opacity={isDark ? 0.55 : 0.35} />
 
       <ScreenWrapper style={{ flex: 1 }}>
         <Animated.ScrollView
@@ -224,8 +228,8 @@ export default function HomeScreen({ navigation }) {
             </Animated.View>
 
             <Animated.View style={{ opacity: heroOpacityScroll, alignItems: 'center' }}>
-              <TypewriterText text={t('heroBrand')} style={[styles.heroTitle, { color: colors.textPrimary }]} delay={200} />
-              <TypewriterText text={t('heroSlogan')} style={[styles.heroSubtitle, { color: colors.textSecondary }]} delay={1200} />
+              <GradientText style={styles.heroTitle}>{t('heroBrand')}</GradientText>
+              <TypewriterText text={t('heroSlogan')} style={[styles.heroSubtitle, { color: colors.textSecondary }]} delay={900} />
               <Text style={[styles.tagline, { color: colors.teal }]}>{t('heroTagline')}</Text>
 
               <View style={styles.heroCTA}>
@@ -319,12 +323,12 @@ export default function HomeScreen({ navigation }) {
           <View style={[styles.section, { marginBottom: 8 }]}>
             <GlassCard glowColor={colors.glowTeal} onPress={() => navigation.navigate('Contact')}>
               <View style={styles.ctaBanner}>
-                <Text style={{ fontSize: 28 }}>💬</Text>
+                <Icon name="chat" size={28} gradient={['#00D4AA', '#7C3AED']} strokeWidth={1.7} />
                 <View style={{ flex: 1, marginLeft: 14 }}>
                   <Text style={[Typography.h4, { color: colors.textPrimary }]}>{t('ctaReadyTitle')}</Text>
                   <Text style={[Typography.bodySmall, { color: colors.textSecondary, marginTop: 3 }]}>{t('ctaReadyDesc')}</Text>
                 </View>
-                <Text style={{ color: colors.teal, fontSize: 20 }}>→</Text>
+                <Icon name="arrowRight" size={20} color={colors.teal} strokeWidth={2} />
               </View>
             </GlassCard>
           </View>

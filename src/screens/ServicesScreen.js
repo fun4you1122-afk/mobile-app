@@ -8,6 +8,7 @@ import { Typography } from '../theme/typography';
 import GlassCard from '../components/GlassCard';
 import VideoBackground from '../components/VideoBackground';
 import ScreenWrapper from '../components/ScreenWrapper';
+import Icon from '../components/Icons';
 import { useTheme } from '../context/AppContext';
 
 const { width } = Dimensions.get('window');
@@ -40,7 +41,7 @@ function ServiceCard({ item, index, navigation }) {
               colors={[item.color + '30', item.color + '10']}
               style={styles.iconBg}
             >
-              <Text style={{ fontSize: 28 }}>{item.icon}</Text>
+              <Icon name={item.icon} size={28} color={item.color} strokeWidth={1.7} />
             </LinearGradient>
           </View>
           <Text style={[Typography.h3, { color: colors.textPrimary, flex: 1, marginLeft: 16 }]}>
@@ -88,12 +89,12 @@ export default function ServicesScreen({ navigation }) {
   const headerAnim = useRef(new Animated.Value(0)).current;
 
   const SERVICES = [
-    { icon: '🌐', title: t('svcWebTitle'), desc: t('svcWebDescFull'), features: t('svcWebFeatures'), color: colors.teal, glow: colors.glowTeal },
-    { icon: '💡', title: t('svcItTitle'), desc: t('svcItDescFull'), features: t('svcItFeatures'), color: colors.blue, glow: colors.glowBlue },
-    { icon: '📱', title: t('svcMobileTitle'), desc: t('svcMobileDescFull'), features: t('svcMobileFeatures'), color: colors.purple, glow: colors.glowPurple },
-    { icon: '🚀', title: t('svcDigitalTitle'), desc: t('svcDigitalDescFull'), features: t('svcDigitalFeatures'), color: colors.teal, glow: colors.glowTeal },
-    { icon: '🎨', title: t('svcBrandTitle'), desc: t('svcBrandDescFull'), features: t('svcBrandFeatures'), color: colors.blue, glow: colors.glowBlue },
-    { icon: '📊', title: t('svcMarketingTitle'), desc: t('svcMarketingDescFull'), features: t('svcMarketingFeatures'), color: colors.purple, glow: colors.glowPurple },
+    { icon: 'globe', title: t('svcWebTitle'), desc: t('svcWebDescFull'), features: t('svcWebFeatures'), color: colors.teal, glow: colors.glowTeal },
+    { icon: 'lightbulb', title: t('svcItTitle'), desc: t('svcItDescFull'), features: t('svcItFeatures'), color: colors.blue, glow: colors.glowBlue },
+    { icon: 'smartphone', title: t('svcMobileTitle'), desc: t('svcMobileDescFull'), features: t('svcMobileFeatures'), color: colors.purple, glow: colors.glowPurple },
+    { icon: 'rocket', title: t('svcDigitalTitle'), desc: t('svcDigitalDescFull'), features: t('svcDigitalFeatures'), color: colors.teal, glow: colors.glowTeal },
+    { icon: 'palette', title: t('svcBrandTitle'), desc: t('svcBrandDescFull'), features: t('svcBrandFeatures'), color: colors.blue, glow: colors.glowBlue },
+    { icon: 'chart', title: t('svcMarketingTitle'), desc: t('svcMarketingDescFull'), features: t('svcMarketingFeatures'), color: colors.purple, glow: colors.glowPurple },
   ];
 
   useEffect(() => {

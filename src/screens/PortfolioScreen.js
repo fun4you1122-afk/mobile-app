@@ -8,6 +8,7 @@ import { Typography } from '../theme/typography';
 import GlassCard from '../components/GlassCard';
 import VideoBackground from '../components/VideoBackground';
 import ScreenWrapper from '../components/ScreenWrapper';
+import Icon from '../components/Icons';
 import { useTheme } from '../context/AppContext';
 
 const { width } = Dimensions.get('window');
@@ -33,7 +34,7 @@ function FeaturedProjectCard({ item }) {
           colors={[item.color + '40', item.color + '10']}
           style={styles.featuredImageArea}
         >
-          <Text style={{ fontSize: 64 }}>{item.icon}</Text>
+          <Icon name={item.icon} size={72} color={item.color} strokeWidth={1.4} />
           <View style={[styles.featuredBadge, { backgroundColor: item.color }]}>
             <Text style={[Typography.label, { color: '#fff', fontSize: 10 }]}>{t('featured')}</Text>
           </View>
@@ -99,7 +100,7 @@ function ProjectCard({ item, index }) {
             colors={[item.color + '30', item.color + '10']}
             style={styles.projectIcon}
           >
-            <Text style={{ fontSize: 26 }}>{item.icon}</Text>
+            <Icon name={item.icon} size={26} color={item.color} strokeWidth={1.7} />
           </LinearGradient>
           <View style={{ flex: 1, marginLeft: 14 }}>
             <Text style={[Typography.h4, { color: colors.textPrimary }]}>{item.title}</Text>
@@ -157,12 +158,12 @@ export default function PortfolioScreen() {
   };
 
   const PROJECTS = [
-    { title: t('proj1Title'), category: 'Web', desc: t('proj1Desc'), tags: t('proj1Tags'), color: colors.teal, icon: '🌐' },
-    { title: t('proj2Title'), category: 'Mobile', desc: t('proj2Desc'), tags: t('proj2Tags'), color: colors.blue, icon: '📱' },
-    { title: t('proj3Title'), category: 'Branding', desc: t('proj3Desc'), tags: t('proj3Tags'), color: colors.purple, icon: '🎨' },
-    { title: t('proj4Title'), category: 'Consulting', desc: t('proj4Desc'), tags: t('proj4Tags'), color: colors.teal, icon: '☁️' },
-    { title: t('proj5Title'), category: 'Web', desc: t('proj5Desc'), tags: t('proj5Tags'), color: colors.blue, icon: '🏢' },
-    { title: t('proj6Title'), category: 'Mobile', desc: t('proj6Desc'), tags: t('proj6Tags'), color: colors.purple, icon: '🏥' },
+    { title: t('proj1Title'), category: 'Web', desc: t('proj1Desc'), tags: t('proj1Tags'), color: colors.teal, icon: 'globe' },
+    { title: t('proj2Title'), category: 'Mobile', desc: t('proj2Desc'), tags: t('proj2Tags'), color: colors.blue, icon: 'cart' },
+    { title: t('proj3Title'), category: 'Branding', desc: t('proj3Desc'), tags: t('proj3Tags'), color: colors.purple, icon: 'palette' },
+    { title: t('proj4Title'), category: 'Consulting', desc: t('proj4Desc'), tags: t('proj4Tags'), color: colors.teal, icon: 'cloud' },
+    { title: t('proj5Title'), category: 'Web', desc: t('proj5Desc'), tags: t('proj5Tags'), color: colors.blue, icon: 'building' },
+    { title: t('proj6Title'), category: 'Mobile', desc: t('proj6Desc'), tags: t('proj6Tags'), color: colors.purple, icon: 'heartPulse' },
   ];
 
   useEffect(() => {

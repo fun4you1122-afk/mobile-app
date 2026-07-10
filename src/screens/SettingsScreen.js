@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Switch, Alert, St
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTheme } from '../context/AppContext';
 import ScreenWrapper from '../components/ScreenWrapper';
+import Icon from '../components/Icons';
 
 export default function SettingsScreen() {
   const { isDark, toggleTheme, colors, language, setLanguage, t, isRTL } = useTheme();
@@ -35,7 +36,7 @@ export default function SettingsScreen() {
         >
           {/* Title */}
           <View style={[styles.titleRow, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
-            <Text style={{ fontSize: 32 }}>⚙️</Text>
+            <Icon name="settings" size={32} gradient={['#00D4AA', '#7C3AED']} strokeWidth={1.7} />
             <Text style={[
               styles.title,
               {
@@ -56,9 +57,11 @@ export default function SettingsScreen() {
           <View style={[styles.card, { backgroundColor: colors.surface, borderColor: colors.border }]}>
             <View style={[styles.settingRow, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
               <View style={[styles.settingLeft, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
-                <Text style={{ fontSize: 22, marginRight: isRTL ? 0 : 12, marginLeft: isRTL ? 12 : 0 }}>
-                  {isDark ? '🌙' : '☀️'}
-                </Text>
+                <View style={{ marginRight: isRTL ? 0 : 12, marginLeft: isRTL ? 12 : 0 }}>
+                  {isDark
+                    ? <Icon name="moon" size={22} color={colors.purple} strokeWidth={1.8} />
+                    : <Icon name="sun" size={22} color="#F59E0B" strokeWidth={1.8} />}
+                </View>
                 <View>
                   <Text style={[styles.settingLabel, { color: colors.textPrimary, textAlign: isRTL ? 'right' : 'left' }]}>
                     {isDark ? t('darkMode') : t('lightMode')}
