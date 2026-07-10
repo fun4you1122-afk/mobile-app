@@ -103,7 +103,7 @@ export default function AboutScreen() {
           </Text>
 
           <LinearGradient
-            colors={['#00D4AA', '#3B5BDB', '#7C3AED']}
+            colors={['#8B5CF6', '#6366F1', '#EC4899']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={styles.divider}

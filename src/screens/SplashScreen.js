@@ -67,9 +67,9 @@ export default function SplashScreen({ navigation }) {
 
   return (
     <Animated.View style={[styles.container, { opacity: screenOpacity }]}>
-      <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
-      <LinearGradient colors={['#050815', '#080d1c', '#050815']} style={StyleSheet.absoluteFill} />
-      <NeuralBackground height={height} opacity={0.35} />
+      <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
+      <LinearGradient colors={['#F6F1FB', '#EFE7F8', '#F6F1FB']} style={StyleSheet.absoluteFill} />
+      <NeuralBackground height={height} opacity={0.3} colors={['rgba(139,92,246,0.45)', 'rgba(6,182,212,0.4)']} />
 
       {/* AI core behind the logo */}
       <View style={styles.orbWrap} pointerEvents="none">
@@ -81,20 +81,20 @@ export default function SplashScreen({ navigation }) {
         width: 260, height: 260,
         transform: [{ scale: ringScale1 }],
         opacity: ringOpacity1,
-        borderColor: 'rgba(0,212,170,0.5)',
+        borderColor: 'rgba(139,92,246,0.5)',
       }]} />
       <Animated.View style={[styles.ring, {
         width: 300, height: 300,
         transform: [{ scale: ringScale2 }],
         opacity: ringOpacity2,
-        borderColor: 'rgba(124,58,237,0.4)',
+        borderColor: 'rgba(236,72,153,0.4)',
       }]} />
 
       {/* Logo */}
       <Animated.View style={{
         transform: [{ scale: logoScale }],
         opacity: logoOpacity,
-        shadowColor: Colors.teal,
+        shadowColor: '#8B5CF6',
         shadowOpacity: 0.6,
         shadowRadius: 40,
         elevation: 20,
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.background,
+    backgroundColor: '#F6F1FB',
   },
   logo: {
     width: 140,
@@ -137,26 +137,26 @@ const styles = StyleSheet.create({
   },
   tagline: {
     ...Typography.h1,
-    color: Colors.textPrimary,
+    color: '#111827',
     letterSpacing: 8,
     textAlign: 'center',
   },
   subtitle: {
     ...Typography.body,
-    color: Colors.textSecondary,
+    color: '#6B7280',
     textAlign: 'center',
     marginTop: 10,
   },
   label: {
     ...Typography.label,
-    color: Colors.teal,
+    color: '#8B5CF6',
     textAlign: 'center',
     marginTop: 14,
   },
   divider: {
     height: 1,
     width: 60,
-    backgroundColor: Colors.teal,
+    backgroundColor: '#8B5CF6',
     alignSelf: 'center',
     marginTop: 14,
     opacity: 0.5,

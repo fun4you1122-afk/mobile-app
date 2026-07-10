@@ -9,6 +9,7 @@ import GlassCard from '../components/GlassCard';
 import VideoBackground from '../components/VideoBackground';
 import ScreenWrapper from '../components/ScreenWrapper';
 import Icon from '../components/Icons';
+import { PastelBackground } from '../components/PastelKit';
 import { useTheme } from '../context/AppContext';
 
 const { width } = Dimensions.get('window');
@@ -104,7 +105,9 @@ export default function ServicesScreen({ navigation }) {
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <StatusBar barStyle={colors.statusBarStyle} backgroundColor="transparent" translucent />
-      <VideoBackground source={require('../../assets/videos/services.mp4')} lightMode={!isDark} />
+      {isDark
+        ? <VideoBackground source={require('../../assets/videos/services.mp4')} lightMode={false} />
+        : <PastelBackground height={520} />}
 
       <ScreenWrapper style={{ flex: 1 }}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, PanResponder, Animated, StyleSheet, Dimensions } from 'react-native';
 import Svg, { Path, Circle, Line, Text as SvgText, Defs, LinearGradient as SvgGradient, Stop, Rect } from 'react-native-svg';
-import { Colors } from '../theme/colors';
 import { Typography } from '../theme/typography';
+import { useTheme } from '../context/AppContext';
 
 const { width: SCREEN_W } = Dimensions.get('window');
 
@@ -16,6 +16,8 @@ export default function InteractiveLineChart({
   width: chartW,
   height: chartH = 180,
 }) {
+  const { colors } = useTheme();
+  const ink = (o) => colors.isDark ? `rgba(255,255,255,${o})` : `rgba(17,24,39,${o})`;
   const W = chartW || SCREEN_W - 64;
   const H = chartH;
   const PAD = { top: 20, right: 16, bottom: 32, left: 36 };
@@ -86,7 +88,7 @@ export default function InteractiveLineChart({
 
   return (
     <View>
-      <Text style={[Typography.label, { color: Colors.textSecondary, marginBottom: 8 }]}>
+      <Text style={[Typography.label, { color: colors.textSecondary, marginBottom: 8 }]}>
         {label}
       </Text>
       <View style={{ position: 'relative' }} {...panResponder.panHandlers}>
@@ -104,8 +106,8 @@ export default function InteractiveLineChart({
             const val = Math.round(maxVal - t * range);
             return (
               <React.Fragment key={i}>
-                <Line x1={PAD.left} y1={y} x2={W - PAD.right} y2={y} stroke="rgba(255,255,255,0.07)" strokeWidth={1} />
-                <SvgText x={PAD.left - 4} y={y + 4} fontSize={9} fill="rgba(255,255,255,0.35)" textAnchor="end">{val}</SvgText>
+                <Line x1={PAD.left} y1={y} x2={W - PAD.right} y2={y} stroke={ink(0.08)} strokeWidth={1} />
+                <SvgText x={PAD.left - 4} y={y + 4} fontSize={9} fill={ink(0.4)} textAnchor="end">{val}</SvgText>
               </React.Fragment>
             );
           })}
@@ -114,7 +116,7 @@ export default function InteractiveLineChart({
           {data.map((_, i) => {
             if (i % 3 !== 0 && i !== data.length - 1) return null;
             return (
-              <SvgText key={i} x={getX(i)} y={H - 4} fontSize={8} fill="rgba(255,255,255,0.4)" textAnchor="middle">
+              <SvgText key={i} x={getX(i)} y={H - 4} fontSize={8} fill={ink(0.45)} textAnchor="middle">
                 {MONTHS[i]}
               </SvgText>
             );
@@ -145,7 +147,7 @@ export default function InteractiveLineChart({
           {/* Active vertical line */}
           {activeIndex !== null && (
             <>
-              <Line x1={activeX} y1={PAD.top} x2={activeX} y2={PAD.top + innerH} stroke="rgba(255,255,255,0.3)" strokeWidth={1} strokeDasharray="4,3" />
+              <Line x1={activeX} y1={PAD.top} x2={activeX} y2={PAD.top + innerH} stroke={ink(0.35)} strokeWidth={1} strokeDasharray="4,3" />
               {/* Tooltip box */}
               <Rect x={Math.min(activeX - 28, W - PAD.right - 60)} y={PAD.top - 18} width={60} height={22} rx={6} fill={color} opacity={0.95} />
               <SvgText

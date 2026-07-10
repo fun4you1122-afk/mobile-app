@@ -11,7 +11,7 @@ let orbSeq = 0;
 // native driver (rotation/scale/opacity of wrapper views); the SVG is static.
 export default function AIOrb({
   size = 170,
-  colors = ['#00D4AA', '#3B5BDB', '#7C3AED'],
+  colors = ['#8B5CF6', '#06B6D4', '#EC4899'],
   coreScale = 0.34,
 }) {
   const ids = useRef({

@@ -8,6 +8,7 @@ import { useTheme } from '../context/AppContext';
 import Icon from '../components/Icons';
 import AIOrb from '../components/AIOrb';
 import NeuralBackground from '../components/NeuralBackground';
+import { PastelBackground } from '../components/PastelKit';
 
 function ToolCard({ item, index, navigation }) {
   const { colors, t } = useTheme();
@@ -39,7 +40,13 @@ function ToolCard({ item, index, navigation }) {
         onPress={() => navigation.navigate('WebView', { url: item.url, title: item.name, color: item.color })}
         style={styles.cardTouch}
       >
-        <View style={[styles.card, { borderColor: item.color + '35', backgroundColor: colors.surface }]}>
+        <View style={[styles.card, {
+          borderColor: colors.isDark ? item.color + '35' : 'transparent',
+          backgroundColor: colors.cardBg,
+        }, colors.isDark ? null : {
+          shadowColor: colors.cardShadow, shadowOpacity: 1, shadowRadius: 20,
+          shadowOffset: { width: 0, height: 9 }, elevation: 5,
+        }]}>
           {/* Top accent line */}
           <LinearGradient
             colors={[item.color, item.color + '00']}
@@ -108,17 +115,20 @@ export default function ToolsScreen({ navigation }) {
   }, []);
 
   const bgColors = isDark
-    ? ['#050815', '#080d1c', '#0a0f24']
+    ? ['#0B0918', '#141026', '#1C1533']
     : [colors.background, colors.backgroundSecondary, colors.background];
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <StatusBar barStyle={colors.statusBarStyle} backgroundColor="transparent" translucent />
-      <LinearGradient
-        colors={bgColors}
-        style={StyleSheet.absoluteFill}
-      />
-      <NeuralBackground height={420} opacity={isDark ? 0.5 : 0.3} />
+      {isDark ? (
+        <>
+          <LinearGradient colors={bgColors} style={StyleSheet.absoluteFill} />
+          <NeuralBackground height={420} opacity={0.5} />
+        </>
+      ) : (
+        <PastelBackground height={520} />
+      )}
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
         <Animated.View style={[styles.header, {
@@ -152,7 +162,7 @@ const styles = StyleSheet.create({
   header: { marginBottom: 28 },
   sectionLabel: { ...Typography.label, marginBottom: 8 },
   cardWrap: { marginBottom: 16 },
-  cardTouch: { borderRadius: 20, overflow: 'hidden' },
+  cardTouch: { borderRadius: 20 },
   card: {
     borderRadius: 20,
     borderWidth: 1,

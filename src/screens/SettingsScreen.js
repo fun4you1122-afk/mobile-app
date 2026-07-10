@@ -24,7 +24,7 @@ export default function SettingsScreen() {
 
       {/* Header gradient */}
       <LinearGradient
-        colors={['#00D4AA22', '#3B5BDB22', colors.background]}
+        colors={['#8B5CF622', '#06B6D422', colors.background]}
         style={styles.headerGrad}
         start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
       />
@@ -36,7 +36,7 @@ export default function SettingsScreen() {
         >
           {/* Title */}
           <View style={[styles.titleRow, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
-            <Icon name="settings" size={32} gradient={['#00D4AA', '#7C3AED']} strokeWidth={1.7} />
+            <Icon name="settings" size={32} gradient={['#8B5CF6', '#EC4899']} strokeWidth={1.7} />
             <Text style={[
               styles.title,
               {
@@ -74,8 +74,8 @@ export default function SettingsScreen() {
               <Switch
                 value={isDark}
                 onValueChange={toggleTheme}
-                trackColor={{ false: '#E2E6F0', true: '#00D4AA55' }}
-                thumbColor={isDark ? '#00D4AA' : '#94A3B8'}
+                trackColor={{ false: '#E2E6F0', true: '#8B5CF655' }}
+                thumbColor={isDark ? '#8B5CF6' : '#94A3B8'}
                 ios_backgroundColor="#3E3E3E"
               />
             </View>
@@ -99,8 +99,8 @@ export default function SettingsScreen() {
                   style={[
                     styles.langCard,
                     {
-                      borderColor: isSelected ? colors.teal : colors.border,
-                      backgroundColor: isSelected ? colors.teal + '18' : colors.surface,
+                      borderColor: isSelected ? colors.accentPurple : colors.border,
+                      backgroundColor: isSelected ? colors.accentPurple + '18' : colors.surface,
                       flex: 1,
                       marginHorizontal: 4,
                     },
@@ -108,16 +108,16 @@ export default function SettingsScreen() {
                 >
                   {isSelected && (
                     <LinearGradient
-                      colors={['#00D4AA22', '#3B5BDB22']}
+                      colors={['#8B5CF622', '#6366F122']}
                       style={StyleSheet.absoluteFill}
                       start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
                     />
                   )}
                   <Text style={{ fontSize: 28, marginBottom: 8 }}>{lang.flag}</Text>
-                  <Text style={[styles.langLabel, { color: isSelected ? colors.teal : colors.textPrimary }]}>
+                  <Text style={[styles.langLabel, { color: isSelected ? colors.accentPurple : colors.textPrimary }]}>
                     {lang.label}
                   </Text>
-                  {isSelected && <View style={[styles.selectedDot, { backgroundColor: colors.teal }]} />}
+                  {isSelected && <View style={[styles.selectedDot, { backgroundColor: colors.accentPurple }]} />}
                 </TouchableOpacity>
               );
             })}
@@ -131,7 +131,7 @@ export default function SettingsScreen() {
           {/* App Info */}
           <View style={[styles.card, { backgroundColor: colors.surface, borderColor: colors.border, marginTop: 24, alignItems: 'center' }]}>
             <LinearGradient
-              colors={['#00D4AA', '#3B5BDB', '#7C3AED']}
+              colors={['#8B5CF6', '#6366F1', '#EC4899']}
               start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
               style={styles.brandBar}
             />

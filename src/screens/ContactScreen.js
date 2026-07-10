@@ -10,6 +10,7 @@ import PulseRing from '../components/PulseRing';
 import VideoBackground from '../components/VideoBackground';
 import ScreenWrapper from '../components/ScreenWrapper';
 import Icon from '../components/Icons';
+import { PastelBackground } from '../components/PastelKit';
 import { useTheme } from '../context/AppContext';
 
 const PHONE = '0503125078';
@@ -96,7 +97,9 @@ export default function ContactScreen() {
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <StatusBar barStyle={colors.statusBarStyle} backgroundColor="transparent" translucent />
-      <VideoBackground source={require('../../assets/videos/contact.mp4')} lightMode={!isDark} />
+      {isDark
+        ? <VideoBackground source={require('../../assets/videos/contact.mp4')} lightMode={false} />
+        : <PastelBackground height={520} />}
 
       <ScreenWrapper style={{ flex: 1 }}>
       <ScrollView
@@ -184,7 +187,7 @@ export default function ContactScreen() {
 
           {submitted ? (
             <Animated.View style={[styles.successBox, { opacity: successOpacity, transform: [{ scale: successScale }] }]}>
-              <Icon name="check" size={52} gradient={['#00D4AA', '#3B5BDB']} strokeWidth={2.2} />
+              <Icon name="check" size={52} gradient={['#8B5CF6', '#06B6D4']} strokeWidth={2.2} />
               <Text style={[Typography.h3, { color: colors.textPrimary, marginTop: 16, textAlign: 'center' }]}>
                 {t('messageSent')}
               </Text>
@@ -234,7 +237,7 @@ export default function ContactScreen() {
               </View>
               <TouchableOpacity onPress={handleSubmit} activeOpacity={0.85} style={styles.submitButton}>
                 <LinearGradient
-                  colors={['#00D4AA', '#3B5BDB', '#7C3AED']}
+                  colors={['#8B5CF6', '#6366F1', '#EC4899']}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 0 }}
                   style={styles.submitGradient}

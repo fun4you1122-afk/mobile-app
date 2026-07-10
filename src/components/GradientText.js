@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { LinearGradient } from 'expo-linear-gradient';
 
-export default function GradientText({ children, style, colors = ['#00D4AA', '#3B5BDB', '#7C3AED'] }) {
+export default function GradientText({ children, style, colors = ['#8B5CF6', '#6366F1', '#EC4899'] }) {
   return (
     <MaskedView maskElement={<Text style={style}>{children}</Text>}>
       <LinearGradient

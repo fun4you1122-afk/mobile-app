@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, TouchableOpacity, Animated, StyleSheet, Dimensions } from 'react-native';
 import Svg, { Rect, Text as SvgText, Defs, LinearGradient as SvgGradient, Stop } from 'react-native-svg';
-import { Colors } from '../theme/colors';
 import { Typography } from '../theme/typography';
+import { useTheme } from '../context/AppContext';
 
 const { width: SCREEN_W } = Dimensions.get('window');
 
 const AnimatedRect = Animated.createAnimatedComponent(Rect);
 
-function Bar({ x, barW, maxH, baseY, value, maxValue, color, label, isActive, onPress, index }) {
+function Bar({ x, barW, maxH, baseY, value, maxValue, color, label, isActive, onPress, index, labelColor, valueColor }) {
   const heightAnim = useRef(new Animated.Value(0)).current;
   const [animH, setAnimH] = useState(0);
 
@@ -54,7 +54,7 @@ function Bar({ x, barW, maxH, baseY, value, maxValue, color, label, isActive, on
             x={barW / 2}
             y={barY - 6}
             fontSize={11}
-            fill="#fff"
+            fill={valueColor}
             textAnchor="middle"
             fontWeight="700"
           >
@@ -67,7 +67,7 @@ function Bar({ x, barW, maxH, baseY, value, maxValue, color, label, isActive, on
           x={barW / 2}
           y={baseY + 14}
           fontSize={8}
-          fill="rgba(255,255,255,0.55)"
+          fill={labelColor}
           textAnchor="middle"
         >
           {label.slice(0, 4)}
@@ -95,6 +95,7 @@ export default function InteractiveBarChart({
   const maxH = H - PAD_V - 24;
   const baseY = H - 24;
 
+  const { colors } = useTheme();
   const [activeIndex, setActiveIndex] = useState(null);
   const maxValue = Math.max(...data.map(d => d.value));
 
@@ -103,7 +104,7 @@ export default function InteractiveBarChart({
   return (
     <View>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-        <Text style={[Typography.label, { color: Colors.textSecondary }]}>{label}</Text>
+        <Text style={[Typography.label, { color: colors.textSecondary }]}>{label}</Text>
         {activeIndex !== null && (
           <Text style={[Typography.label, { color: data[activeIndex].color }]}>
             {data[activeIndex].label}: {data[activeIndex].value}%
@@ -125,6 +126,8 @@ export default function InteractiveBarChart({
             color={item.color}
             label={item.label}
             isActive={activeIndex === i}
+            labelColor={colors.isDark ? 'rgba(255,255,255,0.55)' : 'rgba(17,24,39,0.55)'}
+            valueColor={colors.textPrimary}
             onPress={() => setActiveIndex(activeIndex === i ? null : i)}
           />
         ))}

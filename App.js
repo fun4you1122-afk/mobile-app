@@ -40,7 +40,7 @@ const TAB_SCREENS = {
   Settings: SettingsScreen,
 };
 
-const BRAND = ['#00D4AA', '#3B5BDB', '#7C3AED'];
+const BRAND = ['#8B5CF6', '#6366F1', '#EC4899'];
 
 function TabItem({ tab, isFocused, onPress, colors, label }) {
   const focus = useRef(new Animated.Value(isFocused ? 1 : 0)).current;
@@ -66,7 +66,7 @@ function TabItem({ tab, isFocused, onPress, colors, label }) {
           {/* Gradient halo behind the active icon */}
           <Animated.View style={[styles.halo, { opacity: focus, transform: [{ scale: haloScale }] }]}>
             <LinearGradient
-              colors={['rgba(0,212,170,0.28)', 'rgba(124,58,237,0.28)']}
+              colors={['rgba(139,92,246,0.22)', 'rgba(236,72,153,0.20)']}
               start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
               style={styles.haloFill}
             />
@@ -80,7 +80,7 @@ function TabItem({ tab, isFocused, onPress, colors, label }) {
         <Animated.Text
           numberOfLines={1}
           style={[styles.tabLabel, {
-            color: colors.teal,
+            color: colors.accentPurple,
             opacity: focus,
             transform: [{ translateY: labelSlide }],
           }]}
@@ -107,7 +107,7 @@ function CustomTabBar({ state, navigation }) {
       }]}>
         {/* Top sheen line */}
         <LinearGradient
-          colors={['rgba(0,212,170,0.5)', 'rgba(59,91,219,0.5)', 'rgba(124,58,237,0.5)']}
+          colors={['rgba(139,92,246,0.5)', 'rgba(99,102,241,0.5)', 'rgba(236,72,153,0.5)']}
           start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
           style={styles.dockAccent}
         />

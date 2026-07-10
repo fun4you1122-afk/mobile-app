@@ -9,6 +9,7 @@ import GlassCard from '../components/GlassCard';
 import VideoBackground from '../components/VideoBackground';
 import ScreenWrapper from '../components/ScreenWrapper';
 import Icon from '../components/Icons';
+import { PastelBackground, StatTile } from '../components/PastelKit';
 import { useTheme } from '../context/AppContext';
 
 const { width } = Dimensions.get('window');
@@ -184,7 +185,9 @@ export default function PortfolioScreen() {
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <StatusBar barStyle={colors.statusBarStyle} backgroundColor="transparent" translucent />
-      <VideoBackground source={require('../../assets/videos/portfolio.mp4')} lightMode={!isDark} />
+      {isDark
+        ? <VideoBackground source={require('../../assets/videos/portfolio.mp4')} lightMode={false} />
+        : <PastelBackground height={520} />}
 
       <ScreenWrapper style={{ flex: 1 }}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
@@ -199,17 +202,11 @@ export default function PortfolioScreen() {
           </Text>
         </Animated.View>
 
-        {/* Quick Stats Strip */}
-        <View style={[styles.statsStrip, { backgroundColor: colors.surface, borderColor: colors.border }]}>
-          {QUICK_STATS.map((stat, i) => (
-            <React.Fragment key={i}>
-              <View style={styles.statItem}>
-                <Text style={[styles.statValue, { color: colors.teal }]}>{stat.value}</Text>
-                <Text style={[styles.statLabel, { color: colors.textSecondary }]}>{stat.label}</Text>
-              </View>
-              {i < QUICK_STATS.length - 1 && <View style={[styles.statDivider, { backgroundColor: colors.border }]} />}
-            </React.Fragment>
-          ))}
+        {/* Quick Stats */}
+        <View style={{ flexDirection: 'row', marginBottom: 20 }}>
+          <StatTile value={QUICK_STATS[0].value} label={QUICK_STATS[0].label} tone="purple" icon="layers" style={{ flex: 1, marginRight: 5 }} />
+          <StatTile value={QUICK_STATS[1].value} label={QUICK_STATS[1].label} tone="cyan" icon="check" style={{ flex: 1, marginHorizontal: 5 }} />
+          <StatTile value={QUICK_STATS[2].value} label={QUICK_STATS[2].label} tone="pink" icon="pin" style={{ flex: 1, marginLeft: 5 }} />
         </View>
 
         {/* Category filter */}
@@ -227,7 +224,7 @@ export default function PortfolioScreen() {
             >
               {activeCategory === cat ? (
                 <LinearGradient
-                  colors={['#00D4AA', '#3B5BDB']}
+                  colors={['#8B5CF6', '#6366F1']}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 0 }}
                   style={styles.filterActive}

@@ -29,8 +29,19 @@ export default function GlassCard({ children, style, onPress, glowColor }) {
     outputRange: [colors.border, resolvedGlowColor],
   });
 
+  // In the pastel (light) theme, glass cards render as soft white cards
+  // with a colored drop shadow to match the design system.
+  const pastelShadow = colors.isDark ? null : {
+    shadowColor: colors.cardShadow,
+    shadowOpacity: 1,
+    shadowRadius: 20,
+    shadowOffset: { width: 0, height: 9 },
+    elevation: 5,
+    backgroundColor: colors.cardBg,
+  };
+
   const inner = (
-    <Animated.View style={[styles.wrapper, { transform: [{ scale }] }, style]}>
+    <Animated.View style={[styles.wrapper, pastelShadow, { transform: [{ scale }] }, style]}>
       <Animated.View style={[StyleSheet.absoluteFill, styles.border, { borderColor }]} />
       <LinearGradient
         colors={colors.cardGradient}
