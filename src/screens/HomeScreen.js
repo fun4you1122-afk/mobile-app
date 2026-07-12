@@ -12,6 +12,8 @@ import {
   SoftCard, IconChip, PillButton, StatTile, ProgressRow,
   DonutChart, LegendRow, GreetingHeader, SectionHeader, ListCard, PastelBackground,
 } from '../components/PastelKit';
+import { Doodle, DecorField } from '../components/Doodles';
+import { SceneLaptop, SceneRocket } from '../components/VectorScenes';
 import { useTheme } from '../context/AppContext';
 
 export default function HomeScreen({ navigation }) {
@@ -78,12 +80,12 @@ export default function HomeScreen({ navigation }) {
                     <Icon name="arrowRight" size={18} color={colors.pillText} strokeWidth={2.2} />
                   </TouchableOpacity>
                 </View>
-                <Image
-                  source={require('../../assets/images/logo.png')}
-                  style={{ width: 120, height: 120 }}
-                  resizeMode="contain"
-                />
+                <SceneLaptop size={148} />
               </View>
+              <DecorField items={[
+                { name: 'sparkle', x: '46%', y: 8, size: 15, color: colors.accentAmber, rotate: 12 },
+                { name: 'plus', x: '52%', y: '78%', size: 12, color: colors.accentPink, rotate: 20, opacity: 0.8 },
+              ]} />
             </SoftCard>
           </Animated.View>
 
@@ -169,6 +171,30 @@ export default function HomeScreen({ navigation }) {
             />
           </SoftCard>
 
+          {/* Promo banner — Canva-style slogan card with doodles */}
+          <View style={[styles.promoBanner, { backgroundColor: colors.chipPurple }]}>
+            <DecorField items={[
+              { name: 'sparkle', x: 16, y: 16, size: 22, color: colors.accentAmber, rotate: 8 },
+              { name: 'sparkle', x: '88%', y: '58%', size: 15, color: colors.accentPink, rotate: -14 },
+              { name: 'ring', x: '86%', y: 12, size: 30, color: colors.accentCyan, opacity: 0.75 },
+              { name: 'squiggle', x: 12, y: '74%', size: 30, color: colors.accentPurple, rotate: -10, opacity: 0.8 },
+              { name: 'puzzle', x: '68%', y: '84%', size: 18, color: colors.accentPink, rotate: 16, opacity: 0.7 },
+              { name: 'dots', x: '8%', y: '42%', size: 22, color: colors.accentCyan, opacity: 0.6 },
+            ]} />
+            <View style={{ alignItems: 'center' }}>
+              <SceneRocket size={132} />
+              <Text style={[styles.promoTitle, { color: colors.textPrimary }]}>{t('heroSlogan')}</Text>
+              <Text style={[styles.promoSub, { color: colors.textSecondary }]}>{t('heroTagline')}</Text>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('Contact')}
+                activeOpacity={0.85}
+                style={[styles.promoArrow, { backgroundColor: colors.pillBg }]}
+              >
+                <Icon name="arrowRight" size={20} color={colors.pillText} strokeWidth={2.2} />
+              </TouchableOpacity>
+            </View>
+          </View>
+
           {/* CTA */}
           <PillButton
             label={t('getQuote').replace(' →', '').replace(' ←', '')}
@@ -198,4 +224,30 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   tileRow: { flexDirection: 'row', marginTop: 12 },
+  promoBanner: {
+    marginTop: 28,
+    borderRadius: 26,
+    paddingVertical: 26,
+    paddingHorizontal: 20,
+    overflow: 'hidden',
+  },
+  promoTitle: {
+    fontSize: 22,
+    fontWeight: '800',
+    letterSpacing: -0.5,
+    textAlign: 'center',
+    marginTop: 10,
+  },
+  promoSub: {
+    fontSize: 12,
+    fontWeight: '600',
+    letterSpacing: 1.5,
+    textAlign: 'center',
+    marginTop: 8,
+  },
+  promoArrow: {
+    width: 54, height: 54, borderRadius: 27,
+    alignItems: 'center', justifyContent: 'center',
+    marginTop: 18,
+  },
 });

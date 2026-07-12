@@ -9,6 +9,7 @@ import Icon from '../components/Icons';
 import AIOrb from '../components/AIOrb';
 import NeuralBackground from '../components/NeuralBackground';
 import { PastelBackground } from '../components/PastelKit';
+import { DecorField } from '../components/Doodles';
 
 function ToolCard({ item, index, navigation }) {
   const { colors, t } = useTheme();
@@ -138,6 +139,13 @@ export default function ToolsScreen({ navigation }) {
           {/* AI core */}
           <View style={{ alignItems: 'center', marginBottom: 10 }}>
             <AIOrb size={150} coreScale={0.32} />
+            <DecorField items={[
+              { name: 'sparkle', x: '16%', y: 8, size: 20, color: colors.accentAmber, rotate: 10 },
+              { name: 'sparkle', x: '80%', y: 96, size: 14, color: colors.accentPink, rotate: -12 },
+              { name: 'ring', x: '78%', y: 6, size: 26, color: colors.accentCyan, opacity: 0.8 },
+              { name: 'plus', x: '12%', y: 104, size: 14, color: colors.accentPurple, rotate: 18, opacity: 0.8 },
+              { name: 'zigzag', x: '4%', y: 60, size: 22, color: colors.accentPink, rotate: -8, opacity: 0.7 },
+            ]} />
           </View>
           <Text style={[styles.sectionLabel, { color: colors.teal, textAlign: 'center' }]}>{t('poweredBy')}</Text>
           <Text style={[Typography.h1, { color: colors.textPrimary, textAlign: 'center' }]}>{t('toolsTitle')}</Text>

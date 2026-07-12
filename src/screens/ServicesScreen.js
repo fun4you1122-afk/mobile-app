@@ -10,6 +10,7 @@ import VideoBackground from '../components/VideoBackground';
 import ScreenWrapper from '../components/ScreenWrapper';
 import Icon from '../components/Icons';
 import { PastelBackground } from '../components/PastelKit';
+import { HeaderDecor } from '../components/Doodles';
 import { useTheme } from '../context/AppContext';
 
 const { width } = Dimensions.get('window');
@@ -115,6 +116,7 @@ export default function ServicesScreen({ navigation }) {
           opacity: headerAnim,
           transform: [{ translateY: headerAnim.interpolate({ inputRange: [0, 1], outputRange: [-20, 0] }) }],
         }]}>
+          <HeaderDecor colors={colors} />
           <Text style={[styles.sectionLabel, { color: colors.teal }]}>{t('expertise')}</Text>
           <Text style={[Typography.h1, { color: colors.textPrimary }]}>{t('servicesTitle')}</Text>
           <Text style={[Typography.body, { color: colors.textSecondary, marginTop: 8, lineHeight: 26 }]}>

@@ -4,6 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useTheme } from '../context/AppContext';
 import ScreenWrapper from '../components/ScreenWrapper';
 import Icon from '../components/Icons';
+import { DecorField } from '../components/Doodles';
 
 export default function SettingsScreen() {
   const { isDark, toggleTheme, colors, language, setLanguage, t, isRTL } = useTheme();
@@ -135,6 +136,12 @@ export default function SettingsScreen() {
               start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
               style={styles.brandBar}
             />
+            <DecorField items={[
+              { name: 'sparkle', x: 14, y: 16, size: 18, color: colors.accentAmber, rotate: 8 },
+              { name: 'ring', x: '88%', y: 18, size: 24, color: colors.accentCyan, opacity: 0.75 },
+              { name: 'squiggle', x: 10, y: '76%', size: 24, color: colors.accentPurple, rotate: -12, opacity: 0.7 },
+              { name: 'sparkle', x: '90%', y: '70%', size: 13, color: colors.accentPink, rotate: -10 },
+            ]} />
             <Text style={{ fontSize: 32, marginTop: 16 }}>🇦🇪</Text>
             <Text style={[styles.appName, { color: colors.textPrimary }]}>WeThink</Text>
             <Text style={[styles.appVersion, { color: colors.textMuted }]}>Version 1.0.0</Text>

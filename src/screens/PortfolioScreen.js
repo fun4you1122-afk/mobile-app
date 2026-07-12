@@ -10,6 +10,8 @@ import VideoBackground from '../components/VideoBackground';
 import ScreenWrapper from '../components/ScreenWrapper';
 import Icon from '../components/Icons';
 import { PastelBackground, StatTile } from '../components/PastelKit';
+import { HeaderDecor } from '../components/Doodles';
+import { SceneTrophy } from '../components/VectorScenes';
 import { useTheme } from '../context/AppContext';
 
 const { width } = Dimensions.get('window');
@@ -195,11 +197,17 @@ export default function PortfolioScreen() {
           opacity: headerAnim,
           transform: [{ translateY: headerAnim.interpolate({ inputRange: [0, 1], outputRange: [-20, 0] }) }],
         }]}>
-          <Text style={[styles.sectionLabel, { color: colors.teal }]}>{t('ourWork')}</Text>
-          <Text style={[Typography.h1, { color: colors.textPrimary }]}>{t('portfolioTitle')}</Text>
-          <Text style={[Typography.body, { color: colors.textSecondary, marginTop: 8 }]}>
-            {t('portfolioSub')}
-          </Text>
+          <HeaderDecor colors={colors} />
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{ flex: 1 }}>
+              <Text style={[styles.sectionLabel, { color: colors.teal }]}>{t('ourWork')}</Text>
+              <Text style={[Typography.h1, { color: colors.textPrimary }]}>{t('portfolioTitle')}</Text>
+              <Text style={[Typography.body, { color: colors.textSecondary, marginTop: 8 }]}>
+                {t('portfolioSub')}
+              </Text>
+            </View>
+            <SceneTrophy size={104} />
+          </View>
         </Animated.View>
 
         {/* Quick Stats */}

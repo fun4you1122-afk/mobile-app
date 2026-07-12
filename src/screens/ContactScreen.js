@@ -11,6 +11,8 @@ import VideoBackground from '../components/VideoBackground';
 import ScreenWrapper from '../components/ScreenWrapper';
 import Icon from '../components/Icons';
 import { PastelBackground } from '../components/PastelKit';
+import { HeaderDecor } from '../components/Doodles';
+import { SceneChat } from '../components/VectorScenes';
 import { useTheme } from '../context/AppContext';
 
 const PHONE = '0503125078';
@@ -112,6 +114,7 @@ export default function ContactScreen() {
           opacity: headerAnim,
           transform: [{ translateY: headerAnim.interpolate({ inputRange: [0, 1], outputRange: [-20, 0] }) }],
         }]}>
+          <HeaderDecor colors={colors} />
           <Text style={[styles.sectionLabel, { color: colors.teal }]}>{t('getInTouch')}</Text>
           <Text style={[Typography.h1, { color: colors.textPrimary }]}>{t('contactTitle')}</Text>
           <Text style={[Typography.body, { color: colors.textSecondary, marginTop: 6 }]}>
@@ -187,7 +190,8 @@ export default function ContactScreen() {
 
           {submitted ? (
             <Animated.View style={[styles.successBox, { opacity: successOpacity, transform: [{ scale: successScale }] }]}>
-              <Icon name="check" size={52} gradient={['#8B5CF6', '#06B6D4']} strokeWidth={2.2} />
+              <SceneChat size={150} />
+              <Icon name="check" size={40} gradient={['#8B5CF6', '#06B6D4']} strokeWidth={2.2} />
               <Text style={[Typography.h3, { color: colors.textPrimary, marginTop: 16, textAlign: 'center' }]}>
                 {t('messageSent')}
               </Text>

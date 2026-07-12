@@ -8,6 +8,7 @@ import { Typography } from '../theme/typography';
 import AIOrb from '../components/AIOrb';
 import GradientText from '../components/GradientText';
 import NeuralBackground from '../components/NeuralBackground';
+import { DecorField } from '../components/Doodles';
 
 const { width, height } = Dimensions.get('window');
 
@@ -70,6 +71,15 @@ export default function SplashScreen({ navigation }) {
       <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
       <LinearGradient colors={['#F6F1FB', '#EFE7F8', '#F6F1FB']} style={StyleSheet.absoluteFill} />
       <NeuralBackground height={height} opacity={0.3} colors={['rgba(139,92,246,0.45)', 'rgba(6,182,212,0.4)']} />
+
+      <DecorField items={[
+        { name: 'sparkle', x: '14%', y: '20%', size: 26, color: '#F59E0B', rotate: 10 },
+        { name: 'sparkle', x: '82%', y: '30%', size: 16, color: '#EC4899', rotate: -14 },
+        { name: 'ring', x: '78%', y: '16%', size: 30, color: '#06B6D4', opacity: 0.7 },
+        { name: 'plus', x: '10%', y: '68%', size: 16, color: '#8B5CF6', rotate: 20, opacity: 0.8 },
+        { name: 'squiggle', x: '76%', y: '72%', size: 30, color: '#8B5CF6', rotate: -10, opacity: 0.7 },
+        { name: 'dots', x: '20%', y: '80%', size: 26, color: '#EC4899', opacity: 0.6 },
+      ]} />
 
       {/* AI core behind the logo */}
       <View style={styles.orbWrap} pointerEvents="none">
